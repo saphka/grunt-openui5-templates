@@ -1,0 +1,133 @@
+# This is the resource bundle for {{&worklist.parameters.ApplicationTitle.value}}
+{{#worklist.environment.internal}}
+# __ldi.translation.uuid={{&worklist.environment.uuid}}
+{{/worklist.environment.internal}}
+
+#XTIT: Application name
+appTitle={{&worklist.parameters.ApplicationTitle.value}}
+
+#YDES: Application description
+appDescription={{&worklist.parameters.ApplicationDescription.value}}
+
+#~~~ Worklist View ~~~~~~~~~~~~~~~~~~~~~~~~~~
+#XTIT: Table view title
+worklistViewTitle={{&worklist.parameters.ApplicationTitle.value}}
+
+#XTIT: Table view title
+worklistTableTitle=<ObjectName>
+
+#XTOL: Tooltip for the search field
+worklistSearchTooltip=Enter an <ObjectName> name or a part of it.
+
+#XBLI: text for a table with no data with filter or search
+worklistNoDataWithSearchText=No matching <ObjectNamePlural> found
+
+#XTIT: Table view title with placeholder for the number of items
+worklistTableTitleCount=<ObjectName> ({0})
+
+#XTIT: The title of the column containing the {{&worklist.parameters.Object_Identifier.value.name}} of {{&worklist.parameters.ObjectCollection.value.name}}
+tableNameColumnTitle=<FirstColumnName>
+
+{{#worklist.parameters.Object_Number.value.name}}
+#XTIT: The title of the column containing the {{&worklist.parameters.Object_Number.value.name}} and the unit of measure
+tableUnitNumberColumnTitle=<LastColumnName>
+{{/worklist.parameters.Object_Number.value.name}}
+
+#XBLI: text for a table with no data
+tableNoDataText=No <ObjectNamePlural> are currently available
+
+#XLNK: text for link in 'not found' pages
+backToWorklist=Show {{&worklist.parameters.ApplicationTitle.value}}
+
+#~~~ Object View ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#XTIT: Object view title
+objectTitle=<ObjectName>
+
+{{#worklist.parameters.Edit.value}}
+#XBTN: delete button
+delete=Delete
+
+#YMSG: Confirm delete message
+confirmDeleteMessage=Do you want to delete this <ObjectName>?
+
+#YMSG: Success on delete message
+deleteSuccessMessage = The <ObjectName> has been deleted.
+
+#~~~ Edit View ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#XTIT: Create view title
+createPageTitle=New <ObjectName>
+
+#XTIT: Update view title
+updatePageTitle=Edit <ObjectName>
+
+#YMSG: Confirm cancel message
+confirmCancelMessage=Do you want to cancel editing and discard the changes?
+
+#YMSG: No changes message
+noChangesMessage=The <ObjectName> has not been saved. There are no changes
+
+#YMSG: Success on submit message
+submitSuccessMessage = The <ObjectName> has been saved
+
+#YMSG: Error on submit message
+submitErrorMessage = The <ObjectName> has not been saved due to an error
+
+	{{#worklist.parameters.EditSmart.value}}
+#XTIT: Label for the form group
+formTitle=<FormTitle>
+
+#XTIT: Label for the form group
+formGroupLabel=<FormGroupLabel>
+
+    {{/worklist.parameters.EditSmart.value}}
+    {{^worklist.parameters.EditSmart.value}}
+
+#XTIT: Label for the {{&worklist.parameters.Object_Identifier.value.name}}
+{{&worklist.parameters.Object_Identifier.value.name}}Label={{&worklist.parameters.Object_Identifier.value.name}}
+
+		{{#worklist.parameters.Object_Number.value}}
+#XTIT: Label for the {{&worklist.parameters.Object_Number.value.name}}
+{{&worklist.parameters.Object_Number.value.name}}Label={{&worklist.parameters.Object_Number.value.name}}
+
+		{{/worklist.parameters.Object_Number.value}}
+	{{/worklist.parameters.EditSmart.value}}
+{{/worklist.parameters.Edit.value}}
+#~~~ Footer Options ~~~~~~~~~~~~~~~~~~~~~~~
+{{#worklist.parameters.FLP.value.value}}
+#XTIT: Save as tile app title
+saveAsTileTitle={{&worklist.parameters.ApplicationTitle.value}} - {0}
+{{/worklist.parameters.FLP.value.value}}
+
+#XTIT: Send E-Mail subject
+shareSendEmailWorklistSubject=<Email subject PLEASE REPLACE ACCORDING TO YOUR USE CASE>
+
+#YMSG: Send E-Mail message
+shareSendEmailWorklistMessage=<Email body PLEASE REPLACE ACCORDING TO YOUR USE CASE>\r\n{0}
+
+#XTIT: Send E-Mail subject
+shareSendEmailObjectSubject=<Email subject including object identifier PLEASE REPLACE ACCORDING TO YOUR USE CASE> {0}
+
+#YMSG: Send E-Mail message
+shareSendEmailObjectMessage=<Email body PLEASE REPLACE ACCORDING TO YOUR USE CASE> {0} (id: {1})\r\n{2}
+
+
+#~~~ Not Found View ~~~~~~~~~~~~~~~~~~~~~~~
+
+#XTIT: Not found view title
+notFoundTitle=Not Found
+
+#YMSG: The {{&worklist.parameters.ObjectCollection.value.name}} not found text is displayed when there is no {{&worklist.parameters.ObjectCollection.value.name}} with this id
+noObjectFoundText=This <ObjectName> is not available
+
+#YMSG: The {{&worklist.parameters.ObjectCollection.value.name}} not available text is displayed when there is no data when starting the app
+noObjectsAvailableText=No <ObjectNamePlural> are currently available
+
+#YMSG: The not found text is displayed when there was an error loading the resource (404 error)
+notFoundText=The requested resource was not found
+
+#~~~ Error Handling ~~~~~~~~~~~~~~~~~~~~~~~
+
+#YMSG: Error dialog description
+errorText=Sorry, a technical error occurred! Please try again later.

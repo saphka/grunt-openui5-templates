@@ -1,0 +1,109 @@
+sap.ui.define([
+	"sap/ui/test/Opa5",
+	"sap/ui/test/matchers/AggregationLengthEquals",
+	"sap/ui/test/matchers/AggregationFilled",
+	"sap/ui/test/matchers/PropertyStrictEquals",
+	"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/pages/Common",
+	"sap/ui/test/actions/Press",
+	"sap/ui/test/actions/EnterText"
+], function(Opa5, AggregationLengthEquals, AggregationFilled, PropertyStrictEquals, Common, Press, EnterText) {
+	"use strict";
+
+	var sViewName = "Edit",
+		s{{&worklist.parameters.Object_Identifier.value.name}}Input = "{{&worklist.parameters.Object_Identifier.value.name}}Field",
+		s{{&worklist.parameters.Object_Number.value.name}}Field = "{{&worklist.parameters.Object_Number.value.name}}Field",
+		sSaveButtonId = "save",
+		sCancelButtonId = "cancel",
+		sPageId = "editPage";
+
+
+	Opa5.createPageObjects({
+
+		onTheEditPage: {
+			baseClass: Common,
+			actions: jQuery.extend({
+				iEnterNewObjectDetails: function(oDetails){
+					this.waitFor({
+						viewName: sViewName,
+						id: s{{&worklist.parameters.Object_Identifier.value.name}}Input,
+						actions: new EnterText({
+							text : oDetails.s{{&worklist.parameters.Object_Identifier.value.name}}
+						}),
+						errorMessage : "Could not find the name input"
+
+					});
+
+					return this.waitFor({
+						viewName: sViewName,
+						id: s{{&worklist.parameters.Object_Number.value.name}}Field,
+						actions: new EnterText({
+							text : oDetails.s{{&worklist.parameters.Object_Number.value.name}}
+						}),
+						errorMessage : "Could not find the quantity input"
+					});
+
+				},
+
+				iPressSave: function() {
+					return this.waitFor({
+						viewName: sViewName,
+						id: sSaveButtonId,
+						actions: new Press(),
+						errorMessage : "Could not find the save button"
+					});
+				},
+
+				iPressCancel: function() {
+					return this.waitFor({
+						viewName: sViewName,
+						id: sCancelButtonId,
+						actions: new Press(),
+						errorMessage : "Could not find the cancel button"
+					});
+				},
+
+				iPressTheBackButton: function() {
+					return this.waitFor({
+						viewName: sViewName,
+						id: sPageId,
+						actions: new Press(),
+						errorMessage : "Could not find the page"
+					});
+				}
+
+			}),
+
+			assertions: jQuery.extend({
+
+				iShouldSeeEmptyInputs: function () {
+					return this.waitFor({
+						viewName: sViewName,
+						controlType: "sap.m.Input",
+						matchers: new PropertyStrictEquals({
+							name : "value",
+							value : ""
+						}),
+						success: function (aInputs) {
+							Opa5.assert.ok((aInputs.length === 2), "all Inputs are empty");
+						},
+						errorMessage: "The Inputs are not empty"
+					})
+				},
+				iShouldSeeTheAppTitle: function (sMode) {
+					return this.waitFor({
+						viewName: sViewName,
+						id: sPageId,
+						success: function (oPage) {
+							var sTitle = oPage.getTitle(),
+								sExpected = (sMode === "Create") ? "createPageTitle" : "updatePageTitle";
+							Opa5.assert.ok((sTitle === oPage.getModel("i18n").getProperty(sExpected)), "The page has the correct title");
+						},
+						errorMessage: "The page is not showing the wright title"
+					})
+				}
+			})
+		}
+
+	});
+
+});

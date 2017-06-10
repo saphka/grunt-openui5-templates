@@ -1,0 +1,261 @@
+/*global location*/
+sap.ui.define([
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/controller/BaseController",
+		"sap/ui/model/json/JSONModel",
+		"sap/ui/core/routing/History",
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/model/formatter"{{#worklist.parameters.Edit.value}},
+		"sap/m/MessageToast",
+		"sap/m/MessageBox"{{/worklist.parameters.Edit.value}}
+	], function (
+		BaseController,
+		JSONModel,
+		History,
+		formatter{{#worklist.parameters.Edit.value}},
+		MessageToast,
+		MessageBox{{/worklist.parameters.Edit.value}}
+	) {
+		"use strict";
+
+		return BaseController.extend("{{&worklist.parameters.ApplicationNamespace.value}}.controller.Object", {
+
+			formatter: formatter,
+
+			/* =========================================================== */
+			/* lifecycle methods                                           */
+			/* =========================================================== */
+
+			/**
+			 * Called when the worklist controller is instantiated.
+			 * @public
+			 */
+			onInit : function () {
+				// Model used to manipulate control states. The chosen values make sure,
+				// detail page is busy indication immediately so there is no break in
+				// between the busy indication for loading the view's meta data
+				var iOriginalBusyDelay,
+					oViewModel = new JSONModel({
+						busy : true,
+						delay : 0
+					});
+
+				this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);{{#worklist.parameters.Edit.value}}
+				this.getRouter().getTarget("object").attachDisplay( function(oEvent) {
+					// how to identify if an entity was created?
+					if(oEvent.getParameter("data").success) {
+						MessageToast.show("successfully edited something", {
+							closeOnBrowserNavigation : false
+						})
+					}
+				}, this);{{/worklist.parameters.Edit.value}}
+
+				// Store original busy indicator delay, so it can be restored later on
+				iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
+				this.setModel(oViewModel, "objectView");
+				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
+						// Restore original busy indicator delay for the object view
+						oViewModel.setProperty("/delay", iOriginalBusyDelay);
+					}
+				);
+			},
+
+			/* =========================================================== */
+			/* event handlers                                              */
+			/* =========================================================== */
+
+{{#worklist.parameters.FLP.value.value}}
+			/**
+			 * Event handler when the share in JAM button has been clicked
+			 * @public
+			 */
+			onShareInJamPress : function () {
+				var oViewModel = this.getModel("objectView"),
+					oShareDialog = sap.ui.getCore().createComponent({
+						name: "sap.collaboration.components.fiori.sharing.dialog",
+						settings: {
+							object:{
+								id: location.href,
+								share: oViewModel.getProperty("/shareOnJamTitle")
+							}
+						}
+					});
+				oShareDialog.open();
+			},
+{{/worklist.parameters.FLP.value.value}}
+
+			/**
+			 * Event handler  for navigating back.
+{{#worklist.parameters.FLP.value.value}}
+			 * It there is a history entry or an previous app-to-app navigation we go one step back in the browser history
+{{/worklist.parameters.FLP.value.value}}
+{{^worklist.parameters.FLP.value.value}}
+			 * It there is a history entry we go one step back in the browser history
+{{/worklist.parameters.FLP.value.value}}
+			 * If not, it will replace the current entry of the browser history with the worklist route.
+			 * @public
+			 */
+			onNavBack : function() {
+{{#worklist.parameters.FLP.value.value}}
+				var sPreviousHash = History.getInstance().getPreviousHash(),
+					oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+{{/worklist.parameters.FLP.value.value}}
+{{^worklist.parameters.FLP.value.value}}
+				var sPreviousHash = History.getInstance().getPreviousHash();
+{{/worklist.parameters.FLP.value.value}}
+
+				if (sPreviousHash !== undefined{{#worklist.parameters.FLP.value.value}} || !oCrossAppNavigator.isInitialNavigation(){{/worklist.parameters.FLP.value.value}}) {
+					history.go(-1);
+				} else {
+					this.getRouter().navTo("worklist", {}, true);
+				}
+			},
+
+{{#worklist.parameters.Edit.value}}
+			/**
+			 * TODO
+			 */
+			onEdit: function() {
+				var sObjectPath = this.getView().getElementBinding().getPath();
+				this.getRouter().getTargets().display("edit", {
+					mode: "update",
+					objectPath: sObjectPath
+				});
+			},
+
+			/**
+			 * TODO
+			 */
+			onDelete  : function() {
+				var oBundle = this.getResourceBundle(),
+					oComponent = this.getOwnerComponent(),
+					that = this;
+				// get user confirmation first
+				MessageBox.confirm(
+					oBundle.getText("confirmDeleteMessage"), {
+						id: "confirmDeleteDialog",
+						styleClass: oComponent.getContentDensityClass(),
+						onClose: function(oAction) {
+							if (oAction === sap.m.MessageBox.Action.OK) {
+								that._deleteObject();
+							}
+						}
+					}
+				);
+			},
+
+{{/worklist.parameters.Edit.value}}
+			/* =========================================================== */
+			/* internal methods                                            */
+			/* =========================================================== */
+
+			/**
+			 * Binds the view to the object path.
+			 * @function
+			 * @param {sap.ui.base.Event} oEvent pattern match event in route 'object'
+			 * @private
+			 */
+			_onObjectMatched : function (oEvent) {
+				var sObjectId =  oEvent.getParameter("arguments").objectId;
+				this.getModel().metadataLoaded().then( function() {
+					var sObjectPath = this.getModel().createKey("{{&worklist.parameters.ObjectCollection.value.name}}", {
+						{{&worklist.parameters.ObjectCollection_Key.value.name}} :  sObjectId
+					});
+					this._bindView("/" + sObjectPath);
+				}.bind(this));
+			},
+
+			/**
+			 * Binds the view to the object path.
+			 * @function
+			 * @param {string} sObjectPath path to the object to be bound
+			 * @private
+			 */
+			_bindView : function (sObjectPath) {
+				var oViewModel = this.getModel("objectView"),
+					oDataModel = this.getModel();
+
+				this.getView().bindElement({
+					path: sObjectPath,
+					events: {
+						change: this._onBindingChange.bind(this),
+						dataRequested: function () {
+							oDataModel.metadataLoaded().then(function () {
+								// Busy indicator on view should only be set if metadata is loaded,
+								// otherwise there may be two busy indications next to each other on the
+								// screen. This happens because route matched handler already calls '_bindView'
+								// while metadata is loaded.
+								oViewModel.setProperty("/busy", true);
+							});
+						},
+						dataReceived: function () {
+							oViewModel.setProperty("/busy", false);
+						}
+					}
+				});
+			},
+
+			_onBindingChange : function () {
+				var oView = this.getView(),
+					oViewModel = this.getModel("objectView"),
+					oElementBinding = oView.getElementBinding();
+
+				// No data for the binding
+				if (!oElementBinding.getBoundContext()) {
+					this.getRouter().getTargets().display("objectNotFound");
+					return;
+				}
+
+				var oResourceBundle = this.getResourceBundle(),
+					oObject = oView.getBindingContext().getObject(),
+					sObjectId = oObject.{{&worklist.parameters.ObjectCollection_Key.value.name}},
+					sObjectName = oObject.{{&worklist.parameters.Object_Identifier.value.name}};
+
+				// Everything went fine.
+				oViewModel.setProperty("/busy", false);
+{{#worklist.parameters.FLP.value.value}}
+				oViewModel.setProperty("/saveAsTileTitle", oResourceBundle.getText("saveAsTileTitle", [sObjectName]));
+				oViewModel.setProperty("/shareOnJamTitle", sObjectName);
+{{/worklist.parameters.FLP.value.value}}
+				oViewModel.setProperty("/shareSendEmailSubject",
+				oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
+				oViewModel.setProperty("/shareSendEmailMessage",
+				oResourceBundle.getText("shareSendEmailObjectMessage", [sObjectName, sObjectId, location.href]));
+			}{{#worklist.parameters.Edit.value}},
+
+			_deleteObject: function() {
+				var oComponent = this.getOwnerComponent(),
+					oBundle = this.getResourceBundle(),
+					oModel = this.getModel(),
+					oViewModel = this.getModel("objectView"),
+					oView = this.getView(),
+					sObjectPath = oView.getElementBinding().getPath(),
+					that = this;
+
+				oViewModel.setProperty("/busy", true);
+
+				oModel.remove(sObjectPath, {
+					success: function () {
+						oView.unbindObject();
+						oViewModel.setProperty("/busy", false);
+						MessageToast.show(oBundle.getText("deleteSuccessMessage"), {
+							closeOnBrowserNavigation : false
+						});
+						that.getRouter().navTo("worklist", {}, false);
+					},
+					error: function (oError) {
+						oViewModel.setProperty("/busy", false);
+						MessageBox.error(
+							oBundle.getText("deleteErrorMessage"),
+							{
+								id: "deleteErrorMessageBox",
+								styleClass: oComponent.getContentDensityClass(),
+								details: oError
+							}
+						);
+					}
+				});
+			}{{/worklist.parameters.Edit.value}}
+
+		});
+
+	}
+);

@@ -1,0 +1,107 @@
+<mvc:View
+	controllerName="{{&worklist.parameters.ApplicationNamespace.value}}.controller.Edit"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+	xmlns="sap.m"
+{{#worklist.parameters.EditSmart.value}}
+	xmlns:smartfield="sap.ui.comp.smartfield"
+	xmlns:smartform="sap.ui.comp.smartform">
+{{/worklist.parameters.EditSmart.value}}
+{{^worklist.parameters.EditSmart.value}}
+	xmlns:form="sap.ui.layout.form">
+{{/worklist.parameters.EditSmart.value}}
+	<semantic:FullscreenPage
+		id="editPage"
+		title="{= ${editView>/mode} === 'add' ? ${i18n>createPageTitle} : ${i18n>updatePageTitle}}"
+		showNavButton="true"
+		navButtonPress="onNavBack"
+		busy="{editView>/busy}">
+		<semantic:content>
+{{#worklist.parameters.EditSmart.value}}
+			<smartform:SmartForm
+				id="form"
+				editable="true"
+				title="{i18n>formTitle}"
+				class="sapUiResponsiveMargin"
+				width="auto">
+				<smartform:Group
+					id="formGroup"
+					label="{i18n>formGroupLabel}">
+					<smartform:GroupElement id="{{&worklist.parameters.Object_Identifier.value.name}}FormElement">
+						<smartfield:SmartField id="{{&worklist.parameters.Object_Identifier.value.name}}Field" value="{{{&worklist.parameters.Object_Identifier.value.name}}}"/>
+					</smartform:GroupElement>
+	{{#worklist.parameters.Object_Number.value}}
+					<smartform:GroupElement id="{{&worklist.parameters.Object_Number.value.name}}FormElement">
+						<smartfield:SmartField id="{{&worklist.parameters.Object_Number.value.name}}Field" value="{{{&worklist.parameters.Object_Number.value.name}}}"/>
+					</smartform:GroupElement>
+	{{/worklist.parameters.Object_Number.value}}
+				</smartform:Group>
+			</smartform:SmartForm>
+{{/worklist.parameters.EditSmart.value}}
+{{^worklist.parameters.EditSmart.value}}
+			<form:SimpleForm
+				id="form"
+				layout="ResponsiveGridLayout"
+				editable="true"
+				class="sapUiResponsiveMargin"
+				width="auto"
+				labelSpanL="3" labelSpanM="3"
+				emptySpanL="4" emptySpanM="4"
+				columnsL="1" columnsM="1">
+				<form:content>
+					<Label id="{{&worklist.parameters.Object_Identifier.value.name}}Label" text="{i18n>{{&worklist.parameters.Object_Identifier.value.name}}Label}"/>
+					<Input
+						id="{{&worklist.parameters.Object_Identifier.value.name}}Field"
+						value="{
+							path: '{{&worklist.parameters.Object_Identifier.value.name}}',
+							type: 'sap.ui.model.odata.type.String'
+						}"/>
+	{{#worklist.parameters.Object_Number.value}}
+					<Label id="{{&worklist.parameters.Object_Number.value.name}}Label" text="{i18n>{{&worklist.parameters.Object_Number.value.name}}Label}"/>
+					<Input
+						id="{{&worklist.parameters.Object_Number.value.name}}Field"
+						value="{
+							path: '{{&worklist.parameters.Object_Number.value.name}}',
+							type: 'sap.ui.model.odata.type.String'
+						}"/>
+				</form:content>
+			</form:SimpleForm>
+	{{/worklist.parameters.Object_Number.value}}
+{{/worklist.parameters.EditSmart.value}}
+		</semantic:content>
+		<semantic:customFooterContent>
+			<Button
+				id="messageButton"
+				text="{editView>/messagesCount}"
+				iconFirst="true"
+				icon="sap-icon://message-popup"
+				visible="{= ${editView>/messagesCount} > 0}"
+				press="onShowMessages"/>
+		</semantic:customFooterContent>
+		<semantic:cancelAction>
+			<semantic:CancelAction id="cancel" press="onCancel"/>
+		</semantic:cancelAction>
+		<semantic:saveAction>
+			<semantic:SaveAction id="save" press="onSave"/>
+		</semantic:saveAction>
+		<semantic:dependents>
+			<MessagePopover
+				id="messagePopover"
+				items="{
+					path: 'message>/',
+					events: {change: '._fnUpdateMessagesButton'},
+					filters: [{
+						path: 'technical',
+						operator: 'EQ',
+						value1: false
+					}]}">
+				<items>
+					<MessagePopoverItem
+						title="{message>message}"
+						type="{message>type}"
+						description="{message>description}"/>
+				</items>
+			</MessagePopover>
+		</semantic:dependents>
+	</semantic:FullscreenPage>
+</mvc:View>

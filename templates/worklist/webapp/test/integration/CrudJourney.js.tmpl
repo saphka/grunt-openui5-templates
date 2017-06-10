@@ -1,0 +1,134 @@
+sap.ui.define([
+	"sap/ui/test/opaQunit"
+], function(opaTest) {
+	"use strict";
+
+	var oObjectDetails = {
+			s{{&worklist.parameters.Object_Identifier.value.name}} : "SomeVeryStrangeProdName",
+			s{{&worklist.parameters.Object_Number.value.name}} : 200
+		},
+		oObjectDetailsUpdate = {
+			s{{&worklist.parameters.Object_Identifier.value.name}}: "SomeOtherStrangeProdName",
+			s{{&worklist.parameters.Object_Number.value.name}}: 2000
+		},
+		oUpdatedObjectDetails = {
+			s{{&worklist.parameters.Object_Identifier.value.name}}: "SomeVeryStrangeProdName1",
+			s{{&worklist.parameters.Object_Number.value.name}}: 2000
+		};
+
+	QUnit.module("Crud - Add new Object");
+
+	opaTest("Should open the Edit Page in add mode based on the Hash with the correct title", function(Given, When, Then) {
+
+		Given.iStartMyApp({hash: "New{{&worklist.parameters.ObjectCollection.value.name}}"});
+
+		Then.onTheEditPage.iShouldSeeEmptyInputs().
+			and.iShouldSeeTheAppTitle("Create").
+			and.iTeardownMyAppFrame()
+	})
+
+	opaTest("Should display the empty new Object view if add was pressed", function(Given, When, Then) {
+		// Arrangements
+		Given.iStartMyApp();
+
+		//Actions
+		When.onTheWorklistPage.iPressTheAddButton();
+
+		// Assertions
+		Then.onTheEditPage.iShouldSeeEmptyInputs();
+	});
+
+	opaTest("Should save a new Object and navigate to the detail view", function(Given, When, Then) {
+		// Actions
+		When.onTheEditPage.iEnterNewObjectDetails(oObjectDetails).
+			and.iPressSave();
+
+		// Assertions
+		Then.onTheObjectPage.iShouldSeeTheObject(oObjectDetails);
+	});
+
+
+	opaTest("Should find the newly created item on the worklist", function(Given, When, Then) {
+		// Actions
+		When.onTheObjectPage.iPressTheBackButton();
+		When.onTheWorklistPage.iSearchForValue(oObjectDetails.s{{&worklist.parameters.Object_Identifier.value.name}});
+		// Assertions
+		Then.onTheWorklistPage.onlyThisOneItemIsDisplayed(oObjectDetails);
+	});
+
+	QUnit.module("Crud - Edit Object");
+
+	opaTest("Should display the Edit Page with the right title", function(Given, When, Then) {
+
+		When.onTheWorklistPage.iPressATableItemAtPosition(0);
+		When.onTheObjectPage.iPressEdit();
+
+		Then.onTheEditPage.iShouldSeeTheAppTitle("Update");
+
+	});
+
+	opaTest("Should not display data-loss if there are no pending changes", function(Given, When, Then) {
+
+		When.onTheEditPage.iPressCancel();
+
+		Then.onTheObjectPage.iShouldSeeTheObject(oObjectDetails);
+	});
+
+	opaTest("Should Save the edits on the Object", function(Given, When, Then) {
+
+		When.onTheObjectPage.iPressEdit();
+		When.onTheEditPage.iEnterNewObjectDetails(oObjectDetailsUpdate).
+			and.iPressSave();
+
+		Then.onTheObjectPage.iShouldSeeTheObject(oObjectDetailsUpdate);
+
+	});
+
+	opaTest("Should display data-loss warning on cancel if changes are pending", function(Given, When, Then) {
+
+		When.onTheObjectPage.iPressEdit();
+		When.onTheEditPage.iEnterNewObjectDetails(oObjectDetails).
+			and.iPressCancel();
+
+		Then.onTheAppPage.iShouldSeeTheMessageBox().
+			and.iTeardownMyAppFrame();
+	});
+
+	opaTest("Should display data-loss warning on nav-back if changes are pending", function(Given, When, Then) {
+
+		Given.iStartMyApp();
+
+		When.onTheWorklistPage.iPressATableItemAtPosition(0)
+		When.onTheObjectPage.iPressEdit()
+		When.onTheEditPage.iEnterNewObjectDetails(oObjectDetailsUpdate).
+			and.iPressTheBackButton();
+
+		Then.onTheAppPage.iShouldSeeTheMessageBox().
+			and.iTeardownMyAppFrame();
+	});
+
+	QUnit.module("Crud - Delete Object");
+
+	opaTest("Should ask for confirmation after delete was pressed", function(Given, When, Then) {
+
+		Given.iStartMyApp({hash: "New{{&worklist.parameters.ObjectCollection.value.name}}"});
+		// Actions
+		When.onTheEditPage.iEnterNewObjectDetails(oObjectDetails).
+			and.iPressSave();
+		When.onTheObjectPage.iPressDelete();
+
+		// Assertions
+		Then.onTheAppPage.iShouldSeeTheMessageBox();
+	});
+
+	opaTest("Should delete Object when confirmation was pressed", function (Given, When, Then) {
+		//Actions
+		When.onTheAppPage.iPressAButtonInAnOpenDialog("OK");
+		When.onTheWorklistPage.iSearchForValue(oObjectDetails.s{{&worklist.parameters.Object_Identifier.value.name}});
+
+		// Assertions
+		Then.onTheWorklistPage.iShouldSeeTheNoDataTextForNoSearchResults().
+			and.iTeardownMyAppFrame();
+	});
+
+});

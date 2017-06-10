@@ -1,0 +1,99 @@
+<mvc:View
+	controllerName="{{&worklist.parameters.ApplicationNamespace.value}}.controller.Worklist"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"{{#worklist.parameters.FLP.value.value}}
+	xmlns:footerbar="sap.ushell.ui.footerbar"{{/worklist.parameters.FLP.value.value}}>
+
+	<semantic:FullscreenPage
+		id="page"
+		navButtonPress="onNavBack"
+		showNavButton="true"
+		title="{i18n>worklistViewTitle}">
+		<semantic:content>
+			<Table
+				id="table"
+				width="auto"
+				class="sapUiResponsiveMargin"
+				items="{
+					path: '/{{&worklist.parameters.ObjectCollection.value.name}}',
+					sorter: {
+						path: '{{&worklist.parameters.Object_Identifier.value.name}}',
+						descending: false
+					}
+				}"
+				noDataText="{worklistView>/tableNoDataText}"
+				busyIndicatorDelay="{worklistView>/tableBusyDelay}"
+				growing="true"
+				growingScrollToLoad="true"
+				updateFinished="onUpdateFinished">
+
+				<headerToolbar>
+					<Toolbar>
+						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
+						<ToolbarSpacer />
+						<SearchField
+							id="searchField"
+							tooltip="{i18n>worklistSearchTooltip}"
+							search="onSearch"
+							width="auto">
+						</SearchField>
+{{#worklist.parameters.Edit.value}}
+						<Button id="addButton" icon="sap-icon://add" press="onAdd" />
+{{/worklist.parameters.Edit.value}}
+					</Toolbar>
+				</headerToolbar>
+
+				<columns>
+					<Column id="nameColumn">
+						<Text text="{i18n>tableNameColumnTitle}" id="nameColumnTitle"/>
+					</Column>
+{{#worklist.parameters.Object_Number.value.name}}
+					<Column id="unitNumberColumn" hAlign="Right">
+						<Text text="{i18n>tableUnitNumberColumnTitle}" id="unitNumberColumnTitle"/>
+					</Column>
+{{/worklist.parameters.Object_Number.value.name}}
+				</columns>
+
+				<items>
+					<ColumnListItem
+						type="Navigation"
+						press="onPress">
+						<cells>
+							<ObjectIdentifier
+							{{=<% %>=}}
+								title="{<%&worklist.parameters.Object_Identifier.value.name%>}"/>
+							<%={{ }}=%>
+{{#worklist.parameters.Object_Number.value.name}}
+							<ObjectNumber{{#worklist.parameters.Object_Number.value}}
+								number="{
+									path: '{{&worklist.parameters.Object_Number.value.name}}',
+									formatter: '.formatter.numberUnit'
+								}"{{/worklist.parameters.Object_Number.value}}{{#worklist.parameters.Object_UnitOfMeasure.value }}
+								{{=<% %>=}}
+								unit="{<%&worklist.parameters.Object_UnitOfMeasure.value.name%>}"<%/worklist.parameters.Object_UnitOfMeasure.value%>/>
+								<%={{ }}=%>
+{{/worklist.parameters.Object_Number.value.name}}
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+
+		<semantic:sendEmailAction>
+			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>
+		</semantic:sendEmailAction>
+
+{{#worklist.parameters.FLP.value.value}}
+		<semantic:shareInJamAction>
+			<semantic:ShareInJamAction id="shareInJam" visible="{FLP>/isShareInJamActive}" press="onShareInJamPress"/>
+		</semantic:shareInJamAction>
+
+		<semantic:saveAsTileAction>
+			<footerbar:AddBookmarkButton id ="shareTile" title="{worklistView>/saveAsTileTitle}" />
+		</semantic:saveAsTileAction>
+{{/worklist.parameters.FLP.value.value}}
+
+	</semantic:FullscreenPage>
+
+</mvc:View>

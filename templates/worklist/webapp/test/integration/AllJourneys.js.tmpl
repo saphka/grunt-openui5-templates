@@ -1,0 +1,33 @@
+jQuery.sap.require("sap.ui.qunit.qunit-css");
+jQuery.sap.require("sap.ui.thirdparty.qunit");
+jQuery.sap.require("sap.ui.qunit.qunit-junit");
+QUnit.config.autostart = false;
+
+sap.ui.require([
+		"sap/ui/test/Opa5",
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/pages/Common",
+		"sap/ui/test/opaQunit",
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/pages/Worklist",
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/pages/Object",
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/pages/NotFound",
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/pages/Browser",{{#worklist.parameters.Edit.value}}
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/pages/Edit",{{/worklist.parameters.Edit.value}}
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/pages/App"
+	], function (Opa5, Common) {
+	"use strict";
+	Opa5.extendConfig({
+		arrangements: new Common(),
+		viewNamespace: "{{&worklist.parameters.ApplicationNamespace.value}}.view."
+	});
+
+	sap.ui.require([
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/WorklistJourney",
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/ObjectJourney",
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/NavigationJourney",
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/NotFoundJourney"{{#worklist.parameters.Edit.value}},
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/CrudJourney"{{/worklist.parameters.Edit.value}}{{#worklist.parameters.FLP.value.value}},
+		"{{&worklist.parameters.ApplicationNamespace.depValue}}/test/integration/FLPIntegrationJourney"{{/worklist.parameters.FLP.value.value}}
+	], function () {
+		QUnit.start();
+	});
+});

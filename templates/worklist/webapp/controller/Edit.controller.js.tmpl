@@ -1,0 +1,225 @@
+sap.ui.define([
+	"{{&worklist.parameters.ApplicationNamespace.depValue}}/controller/BaseController",
+	"sap/ui/model/json/JSONModel",
+	"{{&worklist.parameters.ApplicationNamespace.depValue}}/model/formatter",
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function(BaseController, JSONModel, formatter, MessageToast, MessageBox) {
+	"use strict";
+	return BaseController.extend("{{&worklist.parameters.ApplicationNamespace.value}}.controller.Edit", {
+
+		formatter: formatter,
+
+		/* =========================================================== */
+		/* lifecycle methods                                           */
+		/* =========================================================== */
+
+		/**
+		 * Called when the worklist controller is instantiated.
+		 * @public
+		 */
+		onInit: function() {
+
+			// Model used to manipulate control states
+			this.oViewModel = new JSONModel({
+				pageTitle: null,
+				busy: false,
+				mode : "none",
+				currentContext : ""
+			});
+			this.setModel(this.oViewModel, "editView");
+
+			// add is bookmarkable, edit not (only target display)
+			this._oMessageManager = sap.ui.getCore().getMessageManager();
+			this._oMessageManager.registerObject(this.getView(), true);
+			this._oMessageModel = this._oMessageManager.getMessageModel();
+			this.setModel(this._oMessageModel,"message");
+
+			// Register for display events of the edit target
+			this.getRouter().getTarget("edit").attachDisplay(this.onEdit, this);
+
+			// Register to the add route matched
+			this.getRouter().getRoute("add").attachPatternMatched(this.onAdd, this);
+		},
+
+		/* =========================================================== */
+		/* event handlers                                              */
+		/* =========================================================== */
+
+		/**
+		 * TODO
+		 * @public
+		 */
+		onAdd: function() {
+			var oView = this.getView();
+			this.oViewModel.setProperty("/mode", "add");
+
+			this.getModel().metadataLoaded().then(function () {
+				var oContext = this.getModel().createEntry("{{&worklist.parameters.ObjectCollection.value.name}}", {
+					success : this._onCreateSuccess.bind(this)
+				});
+				oView.setBindingContext(oContext);
+			}.bind(this));
+		},
+
+		onEdit : function(oEvent) {
+			var oData = oEvent.getParameter("data"),
+				oView = this.getView();
+			this.oViewModel.setProperty("/mode", "edit");
+
+			oView.bindElement({
+				path : oData.objectPath
+			});
+		},
+
+		/**
+		 * TODO
+		 * @public
+		 */
+		onCancel: function() {
+
+			// check if the model has been changed
+			if (this.getModel().hasPendingChanges()) {
+				// get user confirmation first
+				this._showConfirmQuitChanges(); // some other thing here....
+			} else {
+				// cancel without confirmation
+				this._navBack();
+			}
+		},
+		/**
+		 * handles the nav-back button.
+		 * Only show confirmation if the model has pending changes
+		 */
+
+		onNavBack : function() {
+			if(this.getModel().hasPendingChanges()) {
+				this._showConfirmQuitChanges(); // modal data loss
+				return;
+			}
+			this._navBack();
+		},
+
+		_showConfirmQuitChanges : function() {
+
+			var oComponent = this.getOwnerComponent(),
+				oBundle = this.getResourceBundle(),
+				oModel = this.getModel();
+			var that = this;
+			MessageBox.confirm(
+				oBundle.getText("confirmCancelMessage"), {
+					styleClass: oComponent.getContentDensityClass(),
+					onClose: function(oAction) {
+						if (oAction === sap.m.MessageBox.Action.OK) {
+							oModel.resetChanges();
+							that._navBack();
+						}
+					}
+				}
+			);
+		},
+
+		/**
+		 *  TODO
+		 */
+
+		_onCreateSuccess : function(oObject, oRequest) {
+			var sId = oObject.{{&worklist.parameters.ObjectCollection_Key.value.name}};
+
+			this.getRouter().navTo("object", {
+				objectId : sId
+			}, true);
+			this.oViewModel.setProperty("/busy", false);
+			// unbind the view to not show this object again...
+			this.getView().unbindObject();
+			MessageToast.show("Good Job! New Entry created!", {
+				closeOnBrowserNavigation : false
+			});
+
+		},
+
+		_onUpdateSuccess : function() {
+			this.getView().unbindObject();
+			this.getRouter().getTargets().display("object", {
+				success : true
+			});
+		},
+
+		/**
+		 * TODO
+		 * @public
+		 */
+		onSave: function() {
+
+			var that = this,
+				oComponent = this.getOwnerComponent(),
+				oBundle = this.getResourceBundle(),
+				oModel = this.getModel();
+
+			// abort if the  model has not been changed
+			if (!oModel.hasPendingChanges()) {
+				MessageBox.information(
+					oBundle.getText("noChangesMessage"),
+					{
+						styleClass: oComponent.getContentDensityClass()
+					}
+				);
+				return;
+			}
+			// set the view busy
+			this.oViewModel.setProperty("/busy", true);
+
+			// handle success of update individually
+			if(this.oViewModel.getProperty("/mode") === "edit") {
+				// attach to the request completed event of the batch
+				oModel.attachEventOnce("batchRequestCompleted", function(oEvent){
+					var oParams = oEvent.getParameters();
+					if(oParams.success) {
+						that._onUpdateSuccess()
+					} else {
+						that._onCrudError(); // never tested this ... central error handler maybe better here....
+					}
+					// finally set View unbusy
+					that.oViewModel.setProperty("/busy", false);
+				});
+			}
+			// submit changes to server
+			oModel.submitChanges();
+
+		},
+
+		/**
+		 * TODO
+		 */
+		onShowMessages: function(oEvent) {
+			var oMessageButton = oEvent.getSource();
+			if(!this._oMessagePopover){
+				this._oMessagePopover = this.byId("messagePopover");
+			}
+			this._oMessagePopover.toggle(oMessageButton);
+		},
+
+		/* =========================================================== */
+		/* internal methods                                            */
+		/* =========================================================== */
+
+		/**
+		 * TODO
+		 */
+		_navBack: function() {
+			var oRouter = this.getRouter();
+			var oView = this.getView();
+			oView.unbindObject();
+			if (this.oViewModel.getProperty("/mode") === "add") {
+				oRouter.navTo("worklist", {});
+			} else {
+				oRouter.getTargets().display("object", {success : false});
+			}
+		},
+
+		_fnUpdateMessagesButton: function(oEvent){
+			var iLength = oEvent.getSource().getLength();
+			this.oViewModel.setProperty("/messagesCount", iLength);
+		}
+	});
+});

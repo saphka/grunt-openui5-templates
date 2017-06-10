@@ -1,0 +1,61 @@
+<mvc:View
+	controllerName="{{&worklist.parameters.ApplicationNamespace.value}}.controller.Object"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"{{#worklist.parameters.FLP.value.value}}
+	xmlns:footerbar="sap.ushell.ui.footerbar"{{/worklist.parameters.FLP.value.value}}>
+
+	<semantic:FullscreenPage
+		id="page"
+		navButtonPress="onNavBack"
+		showNavButton="true"
+		title="{i18n>objectTitle}"
+		busy="{objectView>/busy}"
+		busyIndicatorDelay="{objectView>/delay}">
+
+		<semantic:content>
+			<ObjectHeader
+				id="objectHeader"
+				{{=<% %>=}}
+				title="{<%&worklist.parameters.Object_Identifier.value.name%>}"
+				<%={{ }}=%>
+{{#worklist.parameters.Object_Number.value.name}}
+				number="{
+							path: '{{&worklist.parameters.Object_Number.value.name}}',
+							formatter: '.formatter.numberUnit'
+				}"
+{{/worklist.parameters.Object_Number.value.name}}
+				{{#worklist.parameters.Object_UnitOfMeasure.value.name}}
+				{{=<% %>=}}
+				numberUnit="{<%&worklist.parameters.Object_UnitOfMeasure.value.name%>}"<%/worklist.parameters.Object_UnitOfMeasure.value.name%>>
+				<%={{ }}=%>
+			</ObjectHeader>
+ 		</semantic:content>
+
+		<semantic:sendEmailAction>
+			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>
+		</semantic:sendEmailAction>
+
+{{#worklist.parameters.Edit.value}}
+		<semantic:editAction>
+			<semantic:EditAction id="edit" press="onEdit"/>
+		</semantic:editAction>
+
+		<semantic:deleteAction>
+			<semantic:DeleteAction id="delete" press="onDelete" />
+		</semantic:deleteAction>
+
+{{/worklist.parameters.Edit.value}}
+		{{#worklist.parameters.FLP.value.value}}
+		<semantic:shareInJamAction>
+			<semantic:ShareInJamAction id="shareInJam" visible="{FLP>/isShareInJamActive}" press="onShareInJamPress"/>
+		</semantic:shareInJamAction>
+
+		<semantic:saveAsTileAction>
+			<footerbar:AddBookmarkButton id ="shareTile" title="{objectView>/saveAsTileTitle}" />
+		</semantic:saveAsTileAction>
+		{{/worklist.parameters.FLP.value.value}}
+
+	</semantic:FullscreenPage>
+
+</mvc:View>

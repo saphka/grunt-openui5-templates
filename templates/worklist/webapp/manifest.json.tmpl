@@ -1,0 +1,200 @@
+{
+	"_version": "1.4.0",
+	"sap.app": {
+{{#worklist.environment.internal}}
+		"id": "${project.artifactId}",
+{{/worklist.environment.internal}}
+{{^worklist.environment.internal}}
+		"id": "{{&worklist.parameters.ApplicationNamespace.value}}",
+{{/worklist.environment.internal}}
+		"type": "application",
+{{#worklist.environment.internal}}
+			"resources" : "resources.json",
+{{/worklist.environment.internal}}
+		"i18n": "i18n/i18n.properties",
+		{{=<% %>=}}
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		<%={{ }}=%>
+		"applicationVersion": {
+{{#worklist.environment.internal}}
+			"version": "${project.version}"
+{{/worklist.environment.internal}}
+{{^worklist.environment.internal}}
+			"version": "1.0.0"
+{{/worklist.environment.internal}}
+		},
+{{#worklist.environment.internal}}
+		"ach": "{{&worklist.parameters.ApplicationComponentHierarchy.value}}",
+{{/worklist.environment.internal}}
+		"dataSources": {
+			"mainService": {
+				"uri": "{{&worklist.parameters.ServiceURL}}",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
+		},
+		"sourceTemplate": {
+			"id": "sap.ui.ui5-template-plugin.1worklist",
+			"version": "1.38.3"
+		}
+	},
+{{#worklist.environment.internal}}
+	"sap.fiori": {
+		"registrationIds": [
+{{#worklist.parameters.FioriID.value}}
+			"{{&worklist.parameters.FioriID.value}}"
+{{/worklist.parameters.FioriID.value}}
+		],
+		"archeType": "transactional"
+	},
+
+{{/worklist.environment.internal}}
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "sap-icon://task",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_bluecrystal"
+		]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "{{&worklist.parameters.ApplicationNamespace.value}}.view.App",
+			"type": "XML",
+			"id": "app"
+		},{{#worklist.parameters.Edit.value}}
+		"handleValidation": true,{{/worklist.parameters.Edit.value}}
+		"dependencies": {
+{{#worklist.environment.internal}}
+			"minUI5Version": "${sap.ui5.dist.version}",
+{{/worklist.environment.internal}}
+{{^worklist.environment.internal}}
+			"minUI5Version": "1.38.0",
+{{/worklist.environment.internal}}
+			"libs": {
+				"sap.ui.core": {
+					"minVersion": "1.38.0"
+				},
+				"sap.m": {
+					"minVersion": "1.38.0"
+				}{{#worklist.parameters.Edit.value}},
+				"sap.ui.layout": {
+					"minVersion": "1.38.0"
+				}{{#worklist.parameters.EditSmart.value}},
+				"sap.ui.comp": {
+					"minVersion": "1.38.0"
+				}{{/worklist.parameters.EditSmart.value}}{{/worklist.parameters.Edit.value}}{{#worklist.parameters.FLP.value.value}},
+				"sap.ushell": {
+					"minVersion": "1.38.0"
+				},
+				"sap.collaboration": {
+					"minVersion": "1.38",
+					"lazy": true
+				}{{/worklist.parameters.FLP.value.value}}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "{{&worklist.parameters.ApplicationNamespace.value}}.i18n.i18n"
+				}
+			},
+			"": {
+				"dataSource": "mainService",
+				"preload": true{{#worklist.parameters.Edit.value}},{{/worklist.parameters.Edit.value}}
+{{#worklist.parameters.Edit.value}}
+				"settings": {
+					"defaultBindingMode": "TwoWay"
+				}
+{{/worklist.parameters.Edit.value}}
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "{{&worklist.parameters.ApplicationNamespace.value}}.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"bypassed": {
+					"target": [
+						"notFound"
+					]
+				},
+				"async": true
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "worklist",
+					"target": [
+						"worklist"
+					]
+				},
+				{
+					"pattern": "{{&worklist.parameters.ObjectCollection.value.name}}/{objectId}",
+					"name": "object",
+					"target": [
+						"object"
+					]
+				}{{#worklist.parameters.Edit.value}},
+				{
+					"pattern" : "New{{&worklist.parameters.ObjectCollection.value.name}}",
+					"name" : "add",
+					"target" : ["add"]
+				}{{/worklist.parameters.Edit.value}}
+			],
+			"targets": {
+				"worklist": {
+					"viewName": "Worklist",
+					"viewId": "worklist",
+					"viewLevel": 1
+				},
+				"object": {
+					"viewName": "Object",
+					"viewId": "object",
+					"viewLevel": 2
+				}{{#worklist.parameters.Edit.value}},
+				"edit": {
+					"viewName": "Edit",
+					"viewId": "edit",
+					"viewLevel": 3
+				},
+				"add" : {
+					"viewName" : "Edit",
+					"viewId" : "edit",
+					"viewLevel" : 3
+				}{{/worklist.parameters.Edit.value}},
+				"objectNotFound": {
+					"viewName": "ObjectNotFound",
+					"viewId": "objectNotFound"
+				},
+				"notFound": {
+					"viewName": "NotFound",
+					"viewId": "notFound"
+				}
+			}
+		}
+	}
+}
