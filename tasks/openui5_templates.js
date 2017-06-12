@@ -58,7 +58,7 @@ module.exports = function (grunt) {
                         value: !options.standalone
                     }
                 },
-                NavigationIntent: options.title.replace(new RegExp('\\.|/|\\\\|-|\\s', 'g'), ''),
+                NavigationIntent: options.title.replace( /\.|\/|\\|-|\s/g, ''),
                 ServiceURL: options.serviceURL
             },
             environment = {
