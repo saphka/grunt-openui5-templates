@@ -34,7 +34,7 @@ sap.ui.define([
 			Then.onTheDetailPage.iShouldSeeTheObjectLineItemsList().
 				and.theLineItemsListShouldHaveTheCorrectNumberOfItems().
 				and.theLineItemsHeaderShouldDisplayTheAmountOfEntries();
-		});{{/}}
+		});{{/masterdetail.parameters.LineItemCollection.value.name}}
 
 		opaTest("Should navigate on press", function (Given, When, Then) {
 			// Actions

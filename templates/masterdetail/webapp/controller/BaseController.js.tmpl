@@ -49,9 +49,9 @@ sap.ui.define([
 			 * Event handler for navigating back.
 {{#masterdetail.parameters.FLP.value.value}}
 			 * It there is a history entry or an previous app-to-app navigation we go one step back in the browser history
-{{/}}{{^}}
+{{/masterdetail.parameters.FLP.value.value}}{{^masterdetail.parameters.FLP.value.value}}
 			 * It there is a history entry we go one step back in the browser history
-{{/}}
+{{/masterdetail.parameters.FLP.value.value}}
 			 * If not, it will replace the current entry of the browser history with the master route.
 			 * @public
 			 */
@@ -59,11 +59,11 @@ sap.ui.define([
 {{#masterdetail.parameters.FLP.value.value}}
 				var sPreviousHash = History.getInstance().getPreviousHash(),
 					oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-{{/}}{{^}}
+{{/masterdetail.parameters.FLP.value.value}}{{^masterdetail.parameters.FLP.value.value}}
 				var sPreviousHash = History.getInstance().getPreviousHash();
-{{/}}
+{{/masterdetail.parameters.FLP.value.value}}
 
-					if (sPreviousHash !== undefined{{#masterdetail.parameters.FLP.value.value}} || !oCrossAppNavigator.isInitialNavigation(){{/}}) {
+					if (sPreviousHash !== undefined{{#masterdetail.parameters.FLP.value.value}} || !oCrossAppNavigator.isInitialNavigation(){{/masterdetail.parameters.FLP.value.value}}) {
 					history.go(-1);
 				} else {
 					this.getRouter().navTo("master", {}, true);

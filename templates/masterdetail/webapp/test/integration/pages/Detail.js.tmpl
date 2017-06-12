@@ -37,7 +37,7 @@ sap.ui.define([
 							actions : new Press(),
 							errorMessage : "Did not find the share button on detail page"
 						});
-{{/}}
+{{/masterdetail.parameters.FLP.value.value}}
 					}
 
 				},
@@ -160,14 +160,14 @@ sap.ui.define([
 							sViewName,
 							"Object header are properly formatted",
 							"Object view has no entries which can be checked for their formatting");
-					},{{/}}{{#masterdetail.parameters.LineItem_Number.value.name}}
+					},{{/masterdetail.parameters.Object_Number.value.name}}{{#masterdetail.parameters.LineItem_Number.value.name}}
 
 					theLineItemsTableShouldContainOnlyFormattedUnitNumbers : function () {
 						return this.theUnitNumbersShouldHaveTwoDecimals("sap.m.ObjectNumber",
 							sViewName,
 							"Object numbers are properly formatted",
 							"LineItmes Table has no entries which can be checked for their formatting");
-					},{{/}}
+					},{{/masterdetail.parameters.LineItem_Number.value.name}}
 
 					theLineItemsHeaderShouldDisplayTheAmountOfEntries : function () {
 						return this.waitFor({
@@ -226,7 +226,7 @@ sap.ui.define([
 							errorMessage : "The Save as Tile did not contain the object name"
 						});
 					}
-{{/}}
+{{/masterdetail.parameters.FLP.value.value}}
 
 				}
 

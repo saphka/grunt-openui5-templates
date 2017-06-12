@@ -1,7 +1,7 @@
 # This is the resource bundle for {{&masterdetail.parameters.ApplicationTitle.value}}
 {{#masterdetail.environment.internal}}
 # __ldi.translation.uuid={{&masterdetail.environment.uuid}}
-{{/}}
+{{/masterdetail.environment.internal}}
 
 #XTIT: Application name
 appTitle={{&masterdetail.parameters.ApplicationTitle.value}}
@@ -56,7 +56,7 @@ masterGroup1Header1=<{{&masterdetail.parameters.Object_Number.value.name}}> 20 o
 
 #XGRP: Group header {{&masterdetail.parameters.Object_Number.value.name}}
 masterGroup1Header2=<{{&masterdetail.parameters.Object_Number.value.name}}> higher than 20
-{{/}}
+{{/masterdetail.parameters.Object_Number.value.name}}
 
 #~~~ Detail View ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -85,12 +85,12 @@ detailLineItemTableIDColumn=<FirstColumnName>
 #XGRP: Title for the {{&masterdetail.parameters.LineItem_Number.value.name}} column in the {{&masterdetail.parameters.LineItemCollection.value.name}} table
 detailLineItemTableUnitNumberColumn=<LastColumnName>
 
-{{/}}
+{{/masterdetail.parameters.LineItemCollection.value.name}}
 {{#masterdetail.parameters.FLP.value.value}}
 #XTIT: Save as tile app title
 shareSaveTileAppTitle={{&masterdetail.parameters.ApplicationTitle.value}} - {0}
 
-{{/}}
+{{/masterdetail.parameters.FLP.value.value}}
 #XTIT: Send E-Mail subject
 shareSendEmailObjectSubject=<Email subject including object identifier PLEASE REPLACE ACCORDING TO YOUR USE CASE> {0}
 

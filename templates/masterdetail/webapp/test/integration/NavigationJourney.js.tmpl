@@ -44,12 +44,12 @@ sap.ui.define([
 
 			// Assertions
 			Then.onTheDetailPage.iShouldSeeTheObjectLineItemsList().{{#masterdetail.parameters.Object_Number.value.name}}
-				and.theDetailViewShouldContainOnlyFormattedUnitNumbers().{{/}}
+				and.theDetailViewShouldContainOnlyFormattedUnitNumbers().{{/masterdetail.parameters.Object_Number.value.name}}
 				and.theLineItemsListShouldHaveTheCorrectNumberOfItems().
 				and.theLineItemsHeaderShouldDisplayTheAmountOfEntries(){{#masterdetail.parameters.LineItem_Number.value.name}}.
-				and.theLineItemsTableShouldContainOnlyFormattedUnitNumbers(){{/}};
+				and.theLineItemsTableShouldContainOnlyFormattedUnitNumbers(){{/masterdetail.parameters.LineItem_Number.value.name}};
 
-		});{{/}}
+		});{{/masterdetail.parameters.LineItemCollection.value.name}}
 
 		opaTest("Navigate to an object not on the client: no item should be selected and the object page should be displayed", function (Given, When, Then) {
 			//Actions

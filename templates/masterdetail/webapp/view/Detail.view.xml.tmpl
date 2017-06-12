@@ -3,7 +3,7 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:semantic="sap.m.semantic"{{#masterdetail.parameters.FLP.value.value}}
-	xmlns:footerbar="sap.ushell.ui.footerbar"{{/}}>
+	xmlns:footerbar="sap.ushell.ui.footerbar"{{/masterdetail.parameters.FLP.value.value}}>
 
 	<semantic:DetailPage
 		id="page"
@@ -16,15 +16,18 @@
 		<semantic:content>
 			<ObjectHeader
 				id="objectHeader"
-				title="{{&#addCurlyBrackets}}{{&masterdetail.parameters.Object_Identifier.value.name}}{{&/addCurlyBrackets}}"
+				{{=<% %>=}}
+				title="{<%&masterdetail.parameters.Object_Identifier.value.name%>}"
+				<%={{ }}=%>
 {{#masterdetail.parameters.Object_Number.value.name}}
 				number="{
 					path: '{{&masterdetail.parameters.Object_Number.value.name}}',
 					formatter: '.formatter.currencyValue'
 				}"
-{{/}}
+{{/masterdetail.parameters.Object_Number.value.name}}
 {{#masterdetail.parameters.Object_UnitOfMeasure.value.name}}
-				numberUnit="{{&#addCurlyBrackets}}{{&masterdetail.parameters.Object_UnitOfMeasure.value.name}}{{&/addCurlyBrackets}}"{{/}}>
+                {{=<% %>=}}
+				numberUnit="{<%&masterdetail.parameters.Object_UnitOfMeasure.value.name%>}"<%={{ }}=%>{{/masterdetail.parameters.Object_UnitOfMeasure.value.name}}>
 			</ObjectHeader>
 			<IconTabBar
 				id="iconTabBar"
@@ -46,7 +49,9 @@
 			<Table
 				id="lineItemsList"
 				width="auto"
-				items="{{&#addCurlyBrackets}}{{&masterdetail.parameters.LineItemCollection.value.name}}{{&/addCurlyBrackets}}"
+				{{=<% %>=}}
+				items="{<%&masterdetail.parameters.LineItemCollection.value.name%>}"
+				<%={{ }}=%>
 				updateFinished="onListUpdateFinished"
 				noDataText="{i18n>detailLineItemTableNoDataText}"
 				busyIndicatorDelay="{detailView>/lineItemTableDelay}"
@@ -73,21 +78,23 @@
 					<ColumnListItem>
 						<cells>
 							<ObjectIdentifier
-								title="{{&#addCurlyBrackets}}{{&masterdetail.parameters.LineItem_Identifier.value.name}}{{&/addCurlyBrackets}}"
-								text="{{&#addCurlyBrackets}}{{&masterdetail.parameters.LineItemCollection_Key.value.name}}{{&/addCurlyBrackets}}"/>
+							    {{=<% %>=}}
+								title="{<%&masterdetail.parameters.LineItem_Identifier.value.name%>}"
+								text="{<%&masterdetail.parameters.LineItemCollection_Key.value.name%>}"<%={{ }}=%>/>
 							<ObjectNumber
 {{#masterdetail.parameters.LineItem_Number.value.name }}
 								number="{
 									path: '{{&masterdetail.parameters.LineItem_Number.value.name}}',
 									formatter: '.formatter.currencyValue'
 								}"
-{{/}}
+{{/masterdetail.parameters.LineItem_Number.value.name}}
 {{#masterdetail.parameters.LineItem_UnitOfMeasure.value.name }}
-								unit="{{&#addCurlyBrackets}}{{&masterdetail.parameters.LineItem_UnitOfMeasure.value.name }}{{&/addCurlyBrackets}}"{{/}}/>
+                                {{=<% %>=}}
+								unit="{<%&masterdetail.parameters.LineItem_UnitOfMeasure.value.name %>}"<%={{ }}=%>{{/masterdetail.parameters.LineItem_UnitOfMeasure.value.name}}/>
 						</cells>
 					</ColumnListItem>
 				</items>
-			</Table>{{/}}
+			</Table>{{/masterdetail.parameters.LineItemCollection.value.name}}
 		</semantic:content>
 
 		<semantic:sendEmailAction>
@@ -110,7 +117,7 @@
 				title="{detailView>/saveAsTileTitle}"/>
 		</semantic:saveAsTileAction>
 
-		{{/}}
+		{{/masterdetail.parameters.FLP.value.value}}
 	</semantic:DetailPage>
 
 </mvc:View>

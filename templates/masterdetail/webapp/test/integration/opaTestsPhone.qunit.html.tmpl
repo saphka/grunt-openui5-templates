@@ -11,9 +11,9 @@
 					"{{&masterdetail.parameters.ApplicationNamespace.value}}.test.integration": "./",
 {{#masterdetail.parameters.FLP.value.value}}
 					"{{&masterdetail.parameters.ApplicationNamespace.value}}.app" : "../flpSandboxMockServer"
-{{/}}{{^}}
+{{/masterdetail.parameters.FLP.value.value}}{{^masterdetail.parameters.FLP.value.value}}
 					"{{&masterdetail.parameters.ApplicationNamespace.value}}.app" : "../mockServer"
-{{/}}
+{{/masterdetail.parameters.FLP.value.value}}
 				}'>
 		</script>
 

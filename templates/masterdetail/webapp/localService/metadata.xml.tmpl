@@ -30,7 +30,7 @@
 				<Property Name="{{&masterdetail.parameters.Object_Number.value.name}}" Type="Edm.Decimal" Nullable="false"
 					Precision="23" Scale="4" sap:label="Unit Number" sap:creatable="false"
 					sap:updatable="false" sap:filterable="false" />
-{{/}}
+{{/masterdetail.parameters.Object_Number.value.name}}
 				<NavigationProperty Name="{{&masterdetail.parameters.LineItemCollection.value.name}}" Relationship="Master_Detail.FK_Object_LineItems" FromRole="Objects" ToRole="LineItems" />
 			</EntityType>
 
@@ -58,7 +58,7 @@
 				<Property Name="{{&masterdetail.parameters.LineItem_Number.value.name}}" Type="Edm.Decimal" Nullable="false"
 					Precision="23" Scale="4" sap:label="Unit Number" sap:creatable="false"
 					sap:updatable="false" sap:filterable="false" />
-{{/}}
+{{/masterdetail.parameters.LineItem_Number.value.name}}
 				<NavigationProperty Name="{{&masterdetail.parameters.ObjectCollection.value.name}}" Relationship="Master_Detail.FK_Object_LineItems" FromRole="LineItems" ToRole="Objects" />
 			</EntityType>
 

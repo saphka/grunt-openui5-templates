@@ -4,15 +4,15 @@ sap.ui.define([
 		"sap/ui/model/json/JSONModel",
 {{#masterdetail.parameters.FLP.value.value}}
 		"sap/ui/core/routing/History",
-{{/}}
+{{/masterdetail.parameters.FLP.value.value}}
 		"sap/ui/model/Filter",
 		"sap/ui/model/FilterOperator",
 		"sap/m/GroupHeaderListItem",
 		"sap/ui/Device",
 		"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/model/formatter"{{#masterdetail.parameters.Object_Number.value.name}},
 		"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/model/grouper",
-		"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/model/GroupSortState"{{/}}
-	], function (BaseController, JSONModel, {{#masterdetail.parameters.FLP.value.value}}History, {{/}}Filter, FilterOperator, GroupHeaderListItem, Device, formatter{{#masterdetail.parameters.Object_Number.value.name}}, grouper, GroupSortState{{/}}) {
+		"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/model/GroupSortState"{{/masterdetail.parameters.Object_Number.value.name}}
+	], function (BaseController, JSONModel, {{#masterdetail.parameters.FLP.value.value}}History, {{/masterdetail.parameters.FLP.value.value}}Filter, FilterOperator, GroupHeaderListItem, Device, formatter{{#masterdetail.parameters.Object_Number.value.name}}, grouper, GroupSortState{{/masterdetail.parameters.Object_Number.value.name}}) {
 		"use strict";
 
 		return BaseController.extend("{{&masterdetail.parameters.ApplicationNamespace.value}}.controller.Master", {
@@ -38,7 +38,7 @@ sap.ui.define([
 
 {{#masterdetail.parameters.Object_Number.value.name}}
 				this._oGroupSortState = new GroupSortState(oViewModel, grouper.groupUnitNumber(this.getResourceBundle()));
-{{/}}
+{{/masterdetail.parameters.Object_Number.value.name}}
 
 				this._oList = oList;
 				// keeps the filter and search state
@@ -197,7 +197,7 @@ sap.ui.define([
 				this._oListFilterState.aFilter = aFilters;
 				this._updateFilterBar(aCaptions.join(", "));
 				this._applyFilterSearch();
-			},{{/}}
+			},{{/masterdetail.parameters.Object_Number.value.name}}
 
 			/**
 			 * Event handler for the list selection event
@@ -252,7 +252,7 @@ sap.ui.define([
 					});
 				}
 			},
-{{/}}{{^}}
+{{/masterdetail.parameters.FLP.value.value}}{{^masterdetail.parameters.FLP.value.value}}
 			/**
 			 * Event handler for navigating back.
 			 * We navigate back in the browser historz
@@ -261,7 +261,7 @@ sap.ui.define([
 			onNavBack : function() {
 				history.go(-1);
 			},
-{{/}}
+{{/masterdetail.parameters.FLP.value.value}}
 
 			/* =========================================================== */
 			/* begin: internal methods                                     */

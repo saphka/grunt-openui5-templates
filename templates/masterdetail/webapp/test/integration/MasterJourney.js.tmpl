@@ -16,7 +16,7 @@ sap.ui.define([
 			Then.onTheMasterPage.iShouldSeeTheList().
 				and.theListShouldHaveAllEntries().
 				and.theHeaderShouldDisplayAllEntries(){{#masterdetail.parameters.Object_Number.value.name}}.
-				and.theListShouldContainOnlyFormattedUnitNumbers(){{/}};
+				and.theListShouldContainOnlyFormattedUnitNumbers(){{/masterdetail.parameters.Object_Number.value.name}};
 		});
 
 		opaTest("Search for the First object should deliver results that contain the firstObject in the name", function (Given, When, Then) {
@@ -50,7 +50,7 @@ sap.ui.define([
 
 			// Assertions
 			Then.onTheMasterPage.theListShouldHaveAllEntries(){{^masterdetail.parameters.Object_Number.value.name}}.
-				and.iTeardownMyAppFrame(){{/}};
+				and.iTeardownMyAppFrame(){{/masterdetail.parameters.Object_Number.value.name}};
 		});
 
 {{#masterdetail.parameters.Object_Number.value.name}}
@@ -128,7 +128,7 @@ sap.ui.define([
 			Then.onTheMasterPage.theListShouldNotContainGroupHeaders().
 				and.iTeardownMyAppFrame();
 		});
-{{/}}
+{{/masterdetail.parameters.Object_Number.value.name}}
 
 	}
 );

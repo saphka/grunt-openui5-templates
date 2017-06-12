@@ -14,13 +14,13 @@ sap.ui.define([
 			} else {
 				sHash = "#{{&masterdetail.parameters.NavigationIntent}}-display";
 			}
-{{/}}{{^}}
+{{/masterdetail.parameters.FLP.value.value}}{{^masterdetail.parameters.FLP.value.value}}
 			if (sHash) {
 				sHash = "#" + (sHash.indexOf("/") === 0 ? sHash.substring(1) : sHash);
 			} else {
 				sHash = "";
 			}
-{{/}}
+{{/masterdetail.parameters.FLP.value.value}}
 
 			return sUrl + sUrlParameters + sHash;
 		}

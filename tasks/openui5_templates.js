@@ -8,8 +8,8 @@
 
 'use strict';
 
-var path = require("path");
-var mustache = require("mustache");
+var path = require('path');
+var mustache = require('mustache');
 
 module.exports = function (grunt) {
 
@@ -25,7 +25,7 @@ module.exports = function (grunt) {
                 description: '',
                 componentHierarchy: '',
                 standalone: false,
-                serviceURL: "/here/goes/your/serviceurl/"
+                serviceURL: '/here/goes/your/serviceurl/'
             }),
             namespaceRegEx = /^(?!sap)[a-z][a-z 0-9]*(?:\.[a-z][a-z 0-9]*)*$/;
 
@@ -36,7 +36,7 @@ module.exports = function (grunt) {
         // options.dest = path.join(options.dest, 'webapp');
 
         var templatePath = path.join(__dirname, '..', 'templates'),
-            template = "",
+            template = '',
             parameters = {
                 ApplicationNamespace: {
                     value: options.namespace,
@@ -56,7 +56,7 @@ module.exports = function (grunt) {
                         value: !options.standalone
                     }
                 },
-                NavigationIntent: options.title.replace(new RegExp("\.|/|\\|-|\s", "g"), ""),
+                NavigationIntent: options.title.replace(new RegExp('\.|/|\\|-|\s', 'g'), ''),
                 ServiceURL: options.serviceURL
             },
             environment = {
@@ -71,21 +71,17 @@ module.exports = function (grunt) {
                 worklist: {
                     edit: false,
                     editSmart: false,
-                    objectCollection: "",
-                    objectCollectionKey: "",
-                    objectCollectionTitle: "",
-                    objectCollectionNumber: "",
-                    objectCollectionUnit: ""
+                    objectCollection: '',
+                    objectCollectionKey: '',
+                    objectCollectionTitle: '',
+                    objectCollectionNumber: '',
+                    objectCollectionUnit: ''
                 }
             });
             template = 'worklist';
             templateData.worklist = {
                 environment: environment,
                 parameters: parameters
-            };
-
-            parameters.Edit = {
-                value: worklistOptions.edit
             };
 
             if (!worklistOptions.edit) {
@@ -97,6 +93,10 @@ module.exports = function (grunt) {
                     'webapp/test/integration/pages/Edit.js'
                 ]);
             }
+
+            parameters.Edit = {
+                value: worklistOptions.edit
+            };
 
             parameters.EditSmart = {
                 value: worklistOptions.editSmart && !worklistOptions.edit
@@ -129,17 +129,83 @@ module.exports = function (grunt) {
         } else if (options.masterdetail) {
             var masterdetailOptions = this.options({
                 masterdetail: {
-                    objectCollection: "",
-                    objectCollectionKey: "",
-                    objectCollectionTitle: "",
-                    objectCollectionNumber: "",
-                    objectCollectionUnit: ""
+                    objectCollection: '',
+                    objectCollectionKey: '',
+                    objectCollectionTitle: '',
+                    objectCollectionNumber: '',
+                    objectCollectionUnit: '',
+                    lineItemCollection: '',
+                    lineItemCollectionKey: '',
+                    lineItemCollectionTitle : '',
+                    lineItemCollectionNumber: '',
+                    lineItemCollectionUnit: ''
                 }
             });
             template = 'masterdetail';
             templateData = {
                 environment: environment,
                 parameters: parameters
+            };
+
+            if (!masterdetailOptions.objectCollectionNumber) {
+                fileFilter = fileFilter.concat([
+                    'webapp/model/grouper.js',
+                    'webapp/test/unit/model/grouper.js',
+                    'webapp/model/GroupSortState.js',
+                    'webapp/test/unit/model/GroupSortState.js'
+                ]);
+            }
+
+            parameters.ObjectCollection = {
+                value: {
+                    name: masterdetailOptions.objectCollection
+                }
+            };
+            parameters.ObjectCollection_Key = {
+                value: {
+                    name: masterdetailOptions.objectCollectionKey
+                }
+            };
+            parameters.Object_Identifier = {
+                value: {
+                    name: masterdetailOptions.objectCollectionTitle
+                }
+            };
+            parameters.Object_Number = {
+                value: {
+                    name: masterdetailOptions.objectCollectionNumber
+                }
+            };
+            parameters.Object_UnitOfMeasure = {
+                value: {
+                    name: masterdetailOptions.objectCollectionUnit
+                }
+            };
+
+            parameters.LineItemCollection = {
+                value: {
+                    name: masterdetailOptions.lineItemCollection
+                }
+            };
+            parameters.LineItemCollection_Key = {
+                value: {
+                    name: masterdetailOptions.lineItemCollectionKey
+                }
+            };
+            parameters.LineItem_Identifier = {
+                value: {
+                    name: masterdetailOptions.lineItemCollectionTitle
+                }
+            };
+            parameters.LineItem_Number = {
+                value: {
+                    name: masterdetailOptions.lineItemCollectionNumber
+                }
+            };
+            parameters.LineItem_UnitOfMeasure = {
+                value: {
+                    name: masterdetailOptions.lineItemCollectionUnit
+                }
             };
 
 

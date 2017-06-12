@@ -21,7 +21,7 @@ sap.ui.define([
 				var oViewModel = new JSONModel({
 					busy : false,
 					delay : 0{{#masterdetail.parameters.LineItemCollection.value.name }},
-					lineItemListTitle : this.getResourceBundle().getText("detailLineItemTableHeading"){{/}}
+					lineItemListTitle : this.getResourceBundle().getText("detailLineItemTableHeading"){{/masterdetail.parameters.LineItemCollection.value.name}}
 				});
 
 				this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
@@ -68,7 +68,7 @@ sap.ui.define([
 
 				oShareDialog.open();
 			},
-{{/}}{{#masterdetail.parameters.LineItemCollection.value.name }}
+{{/masterdetail.parameters.FLP.value.value}}{{#masterdetail.parameters.LineItemCollection.value.name }}
 			/**
 			 * Updates the item count within the line item table's header
 			 * @param {object} oEvent an event containing the total number of items in the list
@@ -89,7 +89,7 @@ sap.ui.define([
 					}
 					oViewModel.setProperty("/lineItemListTitle", sTitle);
 				}
-			},{{/}}
+			},{{/masterdetail.parameters.LineItemCollection.value.name}}
 
 			/* =========================================================== */
 			/* begin: internal methods                                     */
@@ -164,7 +164,7 @@ sap.ui.define([
 {{#masterdetail.parameters.FLP.value.value}}
 				oViewModel.setProperty("/saveAsTileTitle",oResourceBundle.getText("shareSaveTileAppTitle", [sObjectName]));
 				oViewModel.setProperty("/shareOnJamTitle", sObjectName);
-{{/}}
+{{/masterdetail.parameters.FLP.value.value}}
 				oViewModel.setProperty("/shareSendEmailSubject",
 					oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
 				oViewModel.setProperty("/shareSendEmailMessage",
@@ -176,7 +176,7 @@ sap.ui.define([
 				var iOriginalViewBusyDelay = this.getView().getBusyIndicatorDelay(),
 					oViewModel = this.getModel("detailView"){{#masterdetail.parameters.LineItemCollection.value.name }},
 					oLineItemTable = this.byId("lineItemsList"),
-					iOriginalLineItemTableBusyDelay = oLineItemTable.getBusyIndicatorDelay(){{/}};
+					iOriginalLineItemTableBusyDelay = oLineItemTable.getBusyIndicatorDelay(){{/masterdetail.parameters.LineItemCollection.value.name}};
 
 				// Make sure busy indicator is displayed immediately when
 				// detail view is displayed for the first time
@@ -186,7 +186,7 @@ sap.ui.define([
 				oLineItemTable.attachEventOnce("updateFinished", function() {
 					// Restore original busy indicator delay for line item table
 					oViewModel.setProperty("/lineItemTableDelay", iOriginalLineItemTableBusyDelay);
-				});{{/}}
+				});{{/masterdetail.parameters.LineItemCollection.value.name}}
 
 				// Binding the view will set it to not busy - so the view is always busy if it is not bound
 				oViewModel.setProperty("/busy", true);

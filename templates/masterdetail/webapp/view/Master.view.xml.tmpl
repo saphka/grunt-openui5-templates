@@ -62,15 +62,18 @@
 					<ObjectListItem
 						type="{= ${device>/system/phone} ? 'Active' : 'Inactive'}"
 						press="onSelectionChange"
-						title="{{&#addCurlyBrackets}}{{&masterdetail.parameters.Object_Identifier.value.name}}{{&/addCurlyBrackets}}"
+						{{=<% %>=}}
+						title="{<%&masterdetail.parameters.Object_Identifier.value.name%>}"
+						<%={{ }}=%>
 {{#masterdetail.parameters.Object_Number.value.name}}
 						number="{
 							path: '{{&masterdetail.parameters.Object_Number.value.name}}',
 							formatter: '.formatter.currencyValue'
 						}"
-{{/}}
+{{/masterdetail.parameters.Object_Number.value.name}}
 {{#masterdetail.parameters.Object_UnitOfMeasure.value.name}}
-						numberUnit="{{&#addCurlyBrackets}}{{&masterdetail.parameters.Object_UnitOfMeasure.value.name}}{{&/addCurlyBrackets}}"{{/}}>
+                        {{=<% %>=}}
+						numberUnit="{<%&masterdetail.parameters.Object_UnitOfMeasure.value.name%>}"<%={{ }}=%>{{/masterdetail.parameters.Object_UnitOfMeasure.value.name}}>
 					</ObjectListItem>
 				</items>
 			</List>
@@ -114,7 +117,7 @@
 					text="{i18n>masterGroup1}"/>
 			</semantic:GroupSelect>
 		</semantic:group>
-{{/}}
+{{/masterdetail.parameters.Object_Number.value.name}}
 
 	</semantic:MasterPage>
 
