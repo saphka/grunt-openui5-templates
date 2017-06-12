@@ -1,0 +1,29 @@
+jQuery.sap.require("sap.ui.qunit.qunit-css");
+jQuery.sap.require("sap.ui.thirdparty.qunit");
+jQuery.sap.require("sap.ui.qunit.qunit-junit");
+QUnit.config.autostart = false;
+
+sap.ui.require([
+	"sap/ui/test/Opa5",
+	"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/test/integration/pages/Common",
+	"sap/ui/test/opaQunit",
+	"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/test/integration/pages/App",
+	"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/test/integration/pages/Browser",
+	"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/test/integration/pages/Master",
+	"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/test/integration/pages/Detail",
+	"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/test/integration/pages/NotFound"
+], function (Opa5, Common) {
+	"use strict";
+	Opa5.extendConfig({
+		arrangements: new Common(),
+		viewNamespace: "{{&masterdetail.parameters.ApplicationNamespace.value}}.view."
+	});
+
+	sap.ui.require([
+		"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/test/integration/NavigationJourneyPhone",
+		"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/test/integration/NotFoundJourneyPhone",
+		"{{&masterdetail.parameters.ApplicationNamespace.depValue}}/test/integration/BusyJourneyPhone"
+	], function () {
+		QUnit.start();
+	});
+});

@@ -1,0 +1,173 @@
+{
+	"_version": "1.4.0",
+
+	"sap.app": {
+{{#masterdetail.environment.internal}}
+		"id": "${project.artifactId}",
+{{/}}{{^}}
+		"id": "{{&masterdetail.parameters.ApplicationNamespace.value}}",
+{{/}}
+		"type": "application",
+{{#masterdetail.environment.internal}}
+		"resources" : "resources.json",
+{{/}}
+		"i18n": "i18n/i18n.properties",
+		"title": "{{&doubleCurlyBrackets "appTitle"}}",
+		"description": "{{&doubleCurlyBrackets "appDescription"}}",
+
+		"applicationVersion": {
+{{#masterdetail.environment.internal}}
+			"version": "${project.version}"
+{{/}}{{^}}
+			"version": "1.0.0"
+{{/}}
+		},
+{{#masterdetail.environment.internal}}
+		"ach": "{{&masterdetail.parameters.ApplicationComponentHierarchy.value}}",
+{{/}}
+		"dataSources": {
+			"mainService": {
+				"uri": "{{&formatUrl datasource.url}}",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri" : "localService/metadata.xml"
+				}
+			}
+		}
+	},
+
+{{#masterdetail.environment.internal}}
+	"sap.fiori": {
+		"registrationIds": [
+{{#masterdetail.parameters.FioriID.value}}
+			"{{&masterdetail.parameters.FioriID.value}}"
+{{/}}
+		],
+		"archeType": "transactional"
+	},
+
+{{/}}
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "sap-icon://detail-view",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_bluecrystal"
+		]
+	},
+
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "{{&masterdetail.parameters.ApplicationNamespace.value}}.view.App",
+			"type": "XML",
+			"id": "app"
+		},
+
+		"dependencies": {
+{{#masterdetail.environment.internal}}
+			"minUI5Version": "${sap.ui5.dist.version}",
+{{/}}{{^}}
+			"minUI5Version": "1.38.0",
+{{/}}
+			"libs": {
+				"sap.ui.core": {
+					"minVersion": "1.38.0"
+				},
+				"sap.m": {
+					"minVersion": "1.38.0"
+				}{{#masterdetail.parameters.FLP.value.value}},
+				"sap.ushell" : {
+					"minVersion": "1.38.0"
+				},
+				"sap.collaboration" : {
+					"minVersion": "1.38",
+					"lazy" : true
+				}{{/}}
+			}
+		},
+
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "{{&masterdetail.parameters.ApplicationNamespace.value}}.i18n.i18n"
+				}
+			},
+			"" : {
+				"dataSource": "mainService",
+				"preload": true
+			}
+		},
+
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "{{&masterdetail.parameters.ApplicationNamespace.value}}.view",
+				"controlId": "idAppControl",
+				"controlAggregation": "detailPages",
+				"bypassed": {
+					"target": ["master", "notFound"]
+				},
+				"async": true
+			},
+
+			"routes": [
+				{
+					"pattern": "",
+					"name": "master",
+					"target": ["object", "master"]
+				},
+				{
+					"pattern": "{{&masterdetail.parameters.ObjectCollection.value.name}}/{objectId}",
+					"name": "object",
+					"target": ["master", "object"]
+				}
+			],
+
+			"targets": {
+				"master": {
+					"viewName": "Master",
+					"viewLevel": 1,
+					"viewId": "master",
+					"controlAggregation": "masterPages"
+				},
+				"object": {
+					"viewName": "Detail",
+					"viewId": "detail",
+					"viewLevel": 2
+				},
+				"detailObjectNotFound": {
+					"viewName": "DetailObjectNotFound",
+					"viewId": "detailObjectNotFound"
+				},
+				"detailNoObjectsAvailable": {
+					"viewName": "DetailNoObjectsAvailable",
+					"viewId": "detailNoObjectsAvailable"
+				},
+				"notFound": {
+					"viewName": "NotFound",
+					"viewId": "notFound"
+				}
+			}
+		}
+	}
+}

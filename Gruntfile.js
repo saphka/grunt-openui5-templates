@@ -83,6 +83,19 @@ module.exports = function (grunt) {
                         objectCollectionUnit: 'Price'
                     }
                 }
+            },
+            md_flp_no_unit : {
+                options: {
+                    dest: 'tmp/md_flp_no_unit',
+                    namespace: 'flp.no.unit',
+                    title: 'flp_no_unit',
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description'
+                    }
+                }
+
             }
         },
 

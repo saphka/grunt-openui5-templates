@@ -1,0 +1,122 @@
+# This is the resource bundle for {{&masterdetail.parameters.ApplicationTitle.value}}
+{{#masterdetail.environment.internal}}
+# __ldi.translation.uuid={{&masterdetail.environment.uuid}}
+{{/}}
+
+#XTIT: Application name
+appTitle={{&masterdetail.parameters.ApplicationTitle.value}}
+
+#YDES: Application description
+appDescription={{&masterdetail.parameters.ApplicationDescription.value}}
+
+#~~~ Master View ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#XTIT: Master view title with placeholder for the number of items
+masterTitleCount=<ObjectName> ({0})
+
+#XTOL: Tooltip for the search field
+masterSearchTooltip=Enter an <ObjectName> name or a part of it.
+
+#XBLI: text for a list with no data
+masterListNoDataText=No <ObjectNamePlural> are currently available
+
+#XBLI: text for a list with no data with filter or search
+masterListNoDataWithFilterOrSearchText=No matching <ObjectNamePlural> found
+
+{{#masterdetail.parameters.Object_Number.value.name}}
+#XSEL: Option to sort the master list by {{&masterdetail.parameters.Object_Identifier.value.name}}
+masterSort1=Sort By <{{&masterdetail.parameters.Object_Identifier.value.name}}>
+
+#XSEL: Option to sort the master list by {{&masterdetail.parameters.Object_Number.value.name}}
+masterSort2=Sort By <{{&masterdetail.parameters.Object_Number.value.name}}>
+
+#XSEL: Option to filter the master list by {{&masterdetail.parameters.Object_Number.value.name}}
+masterFilterName=<{{&masterdetail.parameters.Object_Number.value.name}}>
+
+#XSEL: Option to not filter the master list
+masterFilterNone=none
+
+#XSEL: Option to filter the master list by {{&masterdetail.parameters.Object_UnitOfMeasure.value.name}} if the value is less than 100
+masterFilter1=<100 <{{&masterdetail.parameters.Object_UnitOfMeasure.value.name}}>
+
+#XSEL: Option to filter the master list by {{&masterdetail.parameters.Object_UnitOfMeasure.value.name}} if the value is greater than 100
+masterFilter2=>100 <{{&masterdetail.parameters.Object_UnitOfMeasure.value.name}}>
+
+#YMSG: Filter text that is displayed above the master list
+masterFilterBarText=Filtered by {0}
+
+#XSEL: Option to not group the master list
+masterGroupNone=(Not grouped)
+
+#XSEL: Option to group the master list by {{&masterdetail.parameters.Object_Number.value.name}}
+masterGroup1=<{{&masterdetail.parameters.Object_Number.value.name}}> Group
+
+#XGRP: Group header {{&masterdetail.parameters.Object_Number.value.name}}
+masterGroup1Header1=<{{&masterdetail.parameters.Object_Number.value.name}}> 20 or less
+
+#XGRP: Group header {{&masterdetail.parameters.Object_Number.value.name}}
+masterGroup1Header2=<{{&masterdetail.parameters.Object_Number.value.name}}> higher than 20
+{{/}}
+
+#~~~ Detail View ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#XTIT: Detail view title
+detailTitle=<ObjectName>
+
+#XTOL: Icon Tab Bar Info
+detailIconTabBarInfo=Info
+
+#XTOL: Icon Tab Bar Attachments
+detailIconTabBarAttachments=Attachments
+
+{{#masterdetail.parameters.LineItemCollection.value.name }}
+#XBLI: Text for the {{&masterdetail.parameters.LineItemCollection.value.name}} table with no data
+detailLineItemTableNoDataText=No <LineItemNamePlural>
+
+#XTIT: Title of the {{&masterdetail.parameters.LineItemCollection.value.name}} table
+detailLineItemTableHeading=<LineItemNamePlural>
+
+#XTIT: Title of the {{&masterdetail.parameters.LineItemCollection.value.name}} table
+detailLineItemTableHeadingCount=<LineItemNamePlural> ({0})
+
+#XGRP: Title for the {{&masterdetail.parameters.LineItem_Identifier.value.name}} column in the {{&masterdetail.parameters.LineItemCollection.value.name}} table
+detailLineItemTableIDColumn=<FirstColumnName>
+
+#XGRP: Title for the {{&masterdetail.parameters.LineItem_Number.value.name}} column in the {{&masterdetail.parameters.LineItemCollection.value.name}} table
+detailLineItemTableUnitNumberColumn=<LastColumnName>
+
+{{/}}
+{{#masterdetail.parameters.FLP.value.value}}
+#XTIT: Save as tile app title
+shareSaveTileAppTitle={{&masterdetail.parameters.ApplicationTitle.value}} - {0}
+
+{{/}}
+#XTIT: Send E-Mail subject
+shareSendEmailObjectSubject=<Email subject including object identifier PLEASE REPLACE ACCORDING TO YOUR USE CASE> {0}
+
+#YMSG: Send E-Mail message
+shareSendEmailObjectMessage=<Email body PLEASE REPLACE ACCORDING TO YOUR USE CASE> {0} (id: {1})\r\n{2}
+
+#~~~ Not Found View ~~~~~~~~~~~~~~~~~~~~~~~
+
+#XTIT: Not found view title
+notFoundTitle=Not Found
+
+#YMSG: The {{&masterdetail.parameters.ObjectCollection.value.name}} not found text is displayed when there is no {{&masterdetail.parameters.ObjectCollection.value.name}} with this id
+noObjectFoundText=This <ObjectName> is not available
+
+#YMSG: The {{&masterdetail.parameters.ObjectCollection.value.name}} not available text is displayed when there is no data when starting the app
+noObjectsAvailableText=No <ObjectNamePlural> are currently available
+
+#YMSG: The not found text is displayed when there was an error loading the resource (404 error)
+notFoundText=The requested resource was not found
+
+#~~~ Not Available View ~~~~~~~~~~~~~~~~~~~~~~~
+
+#XTIT: Master view title
+notAvailableViewTitle=<ObjectName>
+
+#~~~ Error Handling ~~~~~~~~~~~~~~~~~~~~~~~
+
+#YMSG: Error dialog description
+errorText=Sorry, a technical error occurred! Please try again later.

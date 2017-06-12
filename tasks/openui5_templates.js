@@ -25,22 +25,12 @@ module.exports = function (grunt) {
                 description: '',
                 componentHierarchy: '',
                 standalone: false,
-                serviceURL: "/here/goes/your/serviceurl/",
-                worklist: {
-                    edit: false,
-                    editSmart: false,
-                    objectCollection: "",
-                    objectCollectionKey: "",
-                    objectCollectionTitle: "",
-                    objectCollectionNumber: "",
-                    objectCollectionUnit: ""
-                }
+                serviceURL: "/here/goes/your/serviceurl/"
             }),
             namespaceRegEx = /^(?!sap)[a-z][a-z 0-9]*(?:\.[a-z][a-z 0-9]*)*$/;
 
         if (!namespaceRegEx.test(options.namespace)) {
             grunt.fail.warn('Namespace incorrect');
-            return;
         }
 
         // options.dest = path.join(options.dest, 'webapp');
@@ -66,8 +56,8 @@ module.exports = function (grunt) {
                         value: !options.standalone
                     }
                 },
-                NavigationIntent : options.title.replace(new RegExp("\\.|/|\\\\|-|\\s", "g"), ""),
-                ServiceURL : options.serviceURL
+                NavigationIntent: options.title.replace(new RegExp("\.|/|\\|-|\s", "g"), ""),
+                ServiceURL: options.serviceURL
             },
             environment = {
                 internal: false,
@@ -77,6 +67,17 @@ module.exports = function (grunt) {
             fileFilter = [];
 
         if (options.worklist) {
+            var worklistOptions = this.options({
+                worklist: {
+                    edit: false,
+                    editSmart: false,
+                    objectCollection: "",
+                    objectCollectionKey: "",
+                    objectCollectionTitle: "",
+                    objectCollectionNumber: "",
+                    objectCollectionUnit: ""
+                }
+            });
             template = 'worklist';
             templateData.worklist = {
                 environment: environment,
@@ -84,50 +85,66 @@ module.exports = function (grunt) {
             };
 
             parameters.Edit = {
-                value: options.worklist.edit
+                value: worklistOptions.edit
             };
 
-            fileFilter = fileFilter.concat([
-                'webapp/controller/Edit.controller.js',
-                'webapp/view/Edit.view.xml',
-                'webapp/view/MessagePopover.fragment.xml',
-                'webapp/test/integration/CrudJourney.js',
-                'webapp/test/integration/pages/Edit.js'
-            ]);
+            if (!worklistOptions.edit) {
+                fileFilter = fileFilter.concat([
+                    'webapp/controller/Edit.controller.js',
+                    'webapp/view/Edit.view.xml',
+                    'webapp/view/MessagePopover.fragment.xml',
+                    'webapp/test/integration/CrudJourney.js',
+                    'webapp/test/integration/pages/Edit.js'
+                ]);
+            }
 
             parameters.EditSmart = {
-                value: options.worklist.editSmart
+                value: worklistOptions.editSmart && !worklistOptions.edit
             };
             parameters.ObjectCollection = {
                 value: {
-                    name: options.worklist.objectCollection
+                    name: worklistOptions.objectCollection
                 }
             };
             parameters.ObjectCollection_Key = {
                 value: {
-                    name: options.worklist.objectCollectionKey
+                    name: worklistOptions.objectCollectionKey
                 }
             };
             parameters.Object_Identifier = {
                 value: {
-                    name: options.worklist.objectCollectionTitle
+                    name: worklistOptions.objectCollectionTitle
                 }
             };
             parameters.Object_Number = {
                 value: {
-                    name: options.worklist.objectCollectionNumber
+                    name: worklistOptions.objectCollectionNumber
                 }
             };
             parameters.Object_UnitOfMeasure = {
                 value: {
-                    name: options.worklist.objectCollectionUnit
+                    name: worklistOptions.objectCollectionUnit
                 }
             };
         } else if (options.masterdetail) {
+            var masterdetailOptions = this.options({
+                masterdetail: {
+                    objectCollection: "",
+                    objectCollectionKey: "",
+                    objectCollectionTitle: "",
+                    objectCollectionNumber: "",
+                    objectCollectionUnit: ""
+                }
+            });
             template = 'masterdetail';
+            templateData = {
+                environment: environment,
+                parameters: parameters
+            };
+
+
         } else {
             grunt.fail.warn('Template not specified');
-            return;
         }
 
         fileFilter = fileFilter.concat((options.standalone) ?
@@ -145,7 +162,6 @@ module.exports = function (grunt) {
         templatePath = path.join(templatePath, template);
         if (!grunt.file.isDir(templatePath)) {
             grunt.fail.warn('Template directory "' + templatePath + '" could not be found');
-            return;
         }
 
         grunt.verbose.writeln('Template files are located at "' + templatePath + '"');
@@ -162,8 +178,8 @@ module.exports = function (grunt) {
 
             var content = grunt.file.read(file.src);
 
-            // content = content.replace(/{{/g, '{{&').replace(/{{&#if /g,'{{#').replace(/{{&\/if/g,'{{/').replace(/formatNamespace 1worklist\.parameters\.ApplicationNamespace\.value/g,
-            // '1worklist.parameters.ApplicationNamespace.depValue').replace(/1worklist/g,'worklist');
+            // content = content.replace(/{{/g, '{{&').replace(/{{&#if /g, '{{#').replace(/{{&\/if/g, '{{/').replace(/{{&#unless /g, '{{^').replace(/{{&\/unless/g, '{{/').replace(/formatNamespace 2masterdetail\.parameters\.ApplicationNamespace\.value/g,
+            //     '2masterdetail.parameters.ApplicationNamespace.depValue').replace(/2masterdetail/g, 'masterdetail').replace(/{{&else}}/g, '{{/}}{{^}}');
 
             content = mustache.render(content, templateData);
 

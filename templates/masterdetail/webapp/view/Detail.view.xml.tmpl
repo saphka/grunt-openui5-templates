@@ -1,0 +1,116 @@
+<mvc:View
+	controllerName="{{&masterdetail.parameters.ApplicationNamespace.value}}.controller.Detail"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"{{#masterdetail.parameters.FLP.value.value}}
+	xmlns:footerbar="sap.ushell.ui.footerbar"{{/}}>
+
+	<semantic:DetailPage
+		id="page"
+		navButtonPress="onNavBack"
+		showNavButton="{device>/system/phone}"
+		title="{i18n>detailTitle}"
+		busy="{detailView>/busy}"
+		busyIndicatorDelay="{detailView>/delay}">
+
+		<semantic:content>
+			<ObjectHeader
+				id="objectHeader"
+				title="{{&#addCurlyBrackets}}{{&masterdetail.parameters.Object_Identifier.value.name}}{{&/addCurlyBrackets}}"
+{{#masterdetail.parameters.Object_Number.value.name}}
+				number="{
+					path: '{{&masterdetail.parameters.Object_Number.value.name}}',
+					formatter: '.formatter.currencyValue'
+				}"
+{{/}}
+{{#masterdetail.parameters.Object_UnitOfMeasure.value.name}}
+				numberUnit="{{&#addCurlyBrackets}}{{&masterdetail.parameters.Object_UnitOfMeasure.value.name}}{{&/addCurlyBrackets}}"{{/}}>
+			</ObjectHeader>
+			<IconTabBar
+				id="iconTabBar"
+				class="sapUiResponsiveContentPadding">
+				<items>
+					<IconTabFilter
+						id="iconTabBarFilter1"
+						icon="sap-icon://hint"
+						tooltip="{i18n>detailIconTabBarInfo}">
+					</IconTabFilter>
+					<IconTabFilter
+						id="iconTabBarFilter2"
+						icon="sap-icon://attachment"
+						tooltip="{i18n>detailIconTabBarAttachments}">
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+{{#masterdetail.parameters.LineItemCollection.value.name }}
+			<Table
+				id="lineItemsList"
+				width="auto"
+				items="{{&#addCurlyBrackets}}{{&masterdetail.parameters.LineItemCollection.value.name}}{{&/addCurlyBrackets}}"
+				updateFinished="onListUpdateFinished"
+				noDataText="{i18n>detailLineItemTableNoDataText}"
+				busyIndicatorDelay="{detailView>/lineItemTableDelay}"
+				class="sapUiResponsiveMargin">
+				<headerToolbar>
+					<Toolbar id="lineItemsToolbar">
+						<Title
+							id="lineItemsHeader"
+							text="{detailView>/lineItemListTitle}"/>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column>
+						<Text text="{i18n>detailLineItemTableIDColumn}"/>
+					</Column>
+					<Column
+						minScreenWidth="Tablet"
+						demandPopin="true"
+						hAlign="Right">
+						<Text text="{i18n>detailLineItemTableUnitNumberColumn}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier
+								title="{{&#addCurlyBrackets}}{{&masterdetail.parameters.LineItem_Identifier.value.name}}{{&/addCurlyBrackets}}"
+								text="{{&#addCurlyBrackets}}{{&masterdetail.parameters.LineItemCollection_Key.value.name}}{{&/addCurlyBrackets}}"/>
+							<ObjectNumber
+{{#masterdetail.parameters.LineItem_Number.value.name }}
+								number="{
+									path: '{{&masterdetail.parameters.LineItem_Number.value.name}}',
+									formatter: '.formatter.currencyValue'
+								}"
+{{/}}
+{{#masterdetail.parameters.LineItem_UnitOfMeasure.value.name }}
+								unit="{{&#addCurlyBrackets}}{{&masterdetail.parameters.LineItem_UnitOfMeasure.value.name }}{{&/addCurlyBrackets}}"{{/}}/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>{{/}}
+		</semantic:content>
+
+		<semantic:sendEmailAction>
+			<semantic:SendEmailAction
+				id="shareEmail"
+				press="onShareEmailPress"/>
+		</semantic:sendEmailAction>
+
+		{{#masterdetail.parameters.FLP.value.value}}
+		<semantic:shareInJamAction>
+			<semantic:ShareInJamAction
+				id="shareInJam"
+				visible="{FLP>/isShareInJamActive}"
+				press="onShareInJamPress"/>
+		</semantic:shareInJamAction>
+
+		<semantic:saveAsTileAction>
+			<footerbar:AddBookmarkButton
+				id="shareTile"
+				title="{detailView>/saveAsTileTitle}"/>
+		</semantic:saveAsTileAction>
+
+		{{/}}
+	</semantic:DetailPage>
+
+</mvc:View>

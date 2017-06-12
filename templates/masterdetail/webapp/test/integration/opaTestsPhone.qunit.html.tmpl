@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Opa tests for {{&masterdetail.parameters.ApplicationTitle.value}}</title>
+		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+		<meta charset="UTF-8">
+
+		<script id="sap-ui-bootstrap"
+				src="{{&masterdetail.environment.resourcePath}}../../resources/sap-ui-core.js"
+				data-sap-ui-resourceroots='{
+					"{{&masterdetail.parameters.ApplicationNamespace.value}}.test.integration": "./",
+{{#masterdetail.parameters.FLP.value.value}}
+					"{{&masterdetail.parameters.ApplicationNamespace.value}}.app" : "../flpSandboxMockServer"
+{{/}}{{^}}
+					"{{&masterdetail.parameters.ApplicationNamespace.value}}.app" : "../mockServer"
+{{/}}
+				}'>
+		</script>
+
+		<script>
+			jQuery.sap.require("{{&masterdetail.parameters.ApplicationNamespace.value}}.test.integration.PhoneJourneys");
+		</script>
+
+	</head>
+	<body>
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+	</body>
+</html>
