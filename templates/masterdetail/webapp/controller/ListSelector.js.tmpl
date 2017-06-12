@@ -113,7 +113,9 @@ sap.ui.define([
 			 * is called.
 			 * @param {function} fnFunction the function to be executed when the list fires a selection change event
 			 * @param {function} oListener the listener object
-			 * @return {{&singleCurlyBracket masterdetail.parameters.ApplicationNamespace.value}}.model.ListSelector} the list selector object for method chaining
+			 {{=<% %>=}}
+			 * @return {<%&masterdetail.parameters.ApplicationNamespace.value%>.model.ListSelector} the list selector object for method chaining
+			 <%={{ }}=%>
 			 * @public
 			 */
 			attachListSelectionChange : function (fnFunction, oListener) {
@@ -129,7 +131,9 @@ sap.ui.define([
 			 * is called.
 			 * @param {function} fnFunction the function to be executed when the list fires a selection change event
 			 * @param {function} oListener the listener object
-			 * @return {{&singleCurlyBracket masterdetail.parameters.ApplicationNamespace.value}}.model.ListSelector} the list selector object for method chaining
+			 {{=<% %>=}}
+			 * @return {<%masterdetail.parameters.ApplicationNamespace.value%>.model.ListSelector} the list selector object for method chaining
+			 <%={{ }}=%>
 			 * @public
 			 */
 			detachListSelectionChange : function (fnFunction, oListener) {

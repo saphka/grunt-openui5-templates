@@ -68,7 +68,9 @@ sap.ui.define([
 
 				oShareDialog.open();
 			},
-{{/masterdetail.parameters.FLP.value.value}}{{#masterdetail.parameters.LineItemCollection.value.name }}
+{{/masterdetail.parameters.FLP.value.value}}
+
+{{#masterdetail.parameters.LineItemCollection.value.name }}
 			/**
 			 * Updates the item count within the line item table's header
 			 * @param {object} oEvent an event containing the total number of items in the list
@@ -89,7 +91,8 @@ sap.ui.define([
 					}
 					oViewModel.setProperty("/lineItemListTitle", sTitle);
 				}
-			},{{/masterdetail.parameters.LineItemCollection.value.name}}
+			},
+			{{/masterdetail.parameters.LineItemCollection.value.name}}
 
 			/* =========================================================== */
 			/* begin: internal methods                                     */

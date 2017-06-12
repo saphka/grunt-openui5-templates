@@ -36,10 +36,10 @@ var compareFiles = function (test, actual, expacted) {
     test.expect(files.length);
 
     files.map(function (file) {
-        var actual = grunt.file.read(file.src);
+        var actual = grunt.file.read(file.src).replace(/\r\n/g,'\n');
 
         if (grunt.file.isFile(file.dest)) {
-            var expected = grunt.file.read((file.dest));
+            var expected = grunt.file.read((file.dest)).replace(/\r\n/g,'\n');
             test.equal(actual, expected, 'File "' + file.dest + '" content mismatch');
         }
         else {
@@ -55,17 +55,53 @@ exports.openui5_templates = {
         // setup here if necessary
         done();
     },
-    flp_no_unit: function (test) {
+    wl_flp_no_unit: function (test) {
         compareFiles(test, 'tmp/wl_flp_no_unit', 'test/expected/wl_flp_no_unit');
     },
-    flp_unit: function (test) {
+    wl_flp_unit: function (test) {
         compareFiles(test, 'tmp/wl_flp_unit', 'test/expected/wl_flp_unit');
     },
-    standalone_no_unit: function (test) {
+    wl_standalone_no_unit: function (test) {
         compareFiles(test, 'tmp/wl_standalone_no_unit', 'test/expected/wl_standalone_no_unit');
     },
-    standalone_unit: function (test) {
+    wl_standalone_unit: function (test) {
         compareFiles(test, 'tmp/wl_standalone_unit', 'test/expected/wl_standalone_unit');
+    },
+    md_flp_unit_line_line_unit: function (test) {
+        compareFiles(test, 'tmp/md_flp_unit_line_line_unit', 'test/expected/md_flp_unit_line_line_unit');
+    },
+    md_flp_no_unit_line_line_unit: function (test) {
+        compareFiles(test, 'tmp/md_flp_no_unit_line_line_unit', 'test/expected/md_flp_no_unit_line_line_unit');
+    },
+    md_flp_no_unit_line_no_line_unit: function (test) {
+        compareFiles(test, 'tmp/md_flp_no_unit_line_no_line_unit', 'test/expected/md_flp_no_unit_line_no_line_unit');
+    },
+    md_flp_no_unit_no_line: function (test) {
+        compareFiles(test, 'tmp/md_flp_no_unit_no_line', 'test/expected/md_flp_no_unit_no_line');
+    },
+    md_flp_unit_line_no_line_unit: function (test) {
+        compareFiles(test, 'tmp/md_flp_unit_line_no_line_unit', 'test/expected/md_flp_unit_line_no_line_unit');
+    },
+    md_flp_unit_no_line: function (test) {
+        compareFiles(test, 'tmp/md_flp_unit_no_line', 'test/expected/md_flp_unit_no_line');
+    },
+    md_standalone_no_unit_line_line_unit: function (test) {
+        compareFiles(test, 'tmp/md_standalone_no_unit_line_line_unit', 'test/expected/md_standalone_no_unit_line_line_unit');
+    },
+    md_standalone_no_unit_line_no_line_unit: function (test) {
+        compareFiles(test, 'tmp/md_standalone_no_unit_line_no_line_unit', 'test/expected/md_standalone_no_unit_line_no_line_unit');
+    },
+    md_standalone_no_unit_no_line: function (test) {
+        compareFiles(test, 'tmp/md_standalone_no_unit_no_line', 'test/expected/md_standalone_no_unit_no_line');
+    },
+    md_standalone_unit_line_line_unit: function (test) {
+        compareFiles(test, 'tmp/md_standalone_no_unit_no_line', 'test/expected/md_standalone_no_unit_no_line');
+    },
+    md_standalone_unit_line_no_line_unit: function (test) {
+        compareFiles(test, 'tmp/md_standalone_unit_line_no_line_unit', 'test/expected/md_standalone_unit_line_no_line_unit');
+    },
+    md_standalone_unit_no_line: function (test) {
+        compareFiles(test, 'tmp/md_standalone_unit_no_line', 'test/expected/md_standalone_unit_no_line');
     }
 
 

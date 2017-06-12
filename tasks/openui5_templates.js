@@ -58,7 +58,7 @@ module.exports = function (grunt) {
                         value: !options.standalone
                     }
                 },
-                NavigationIntent: options.title.replace(new RegExp('\.|/|\\|-|\s', 'g'), ''),
+                NavigationIntent: options.title.replace(new RegExp('\\.|/|\\\\|-|\\s', 'g'), ''),
                 ServiceURL: options.serviceURL
             },
             environment = {
@@ -86,17 +86,17 @@ module.exports = function (grunt) {
                 parameters: parameters
             };
 
-            if (!worklistOptions.objectCollection) {
+            if (!worklistOptions.worklist.objectCollection) {
                 grunt.fail.warn('Object collection is mandatory');
             }
-            if (!worklistOptions.objectCollectionTitle) {
+            if (!worklistOptions.worklist.objectCollectionTitle) {
                 grunt.fail.warn('Object collection title is mandatory');
             }
-            if (!worklistOptions.objectCollectionKey) {
+            if (!worklistOptions.worklist.objectCollectionKey) {
                 grunt.fail.warn('Object collection key is mandatory');
             }
 
-            if (!worklistOptions.edit) {
+            if (!worklistOptions.worklist.edit) {
                 fileFilter = fileFilter.concat([
                     'webapp/controller/Edit.controller.js',
                     'webapp/view/Edit.view.xml',
@@ -107,35 +107,35 @@ module.exports = function (grunt) {
             }
 
             parameters.Edit = {
-                value: worklistOptions.edit
+                value: worklistOptions.worklist.edit
             };
 
             parameters.EditSmart = {
-                value: worklistOptions.editSmart && !worklistOptions.edit
+                value: worklistOptions.worklist.editSmart && !worklistOptions.worklist.edit
             };
             parameters.ObjectCollection = {
                 value: {
-                    name: worklistOptions.objectCollection
+                    name: worklistOptions.worklist.objectCollection
                 }
             };
             parameters.ObjectCollection_Key = {
                 value: {
-                    name: worklistOptions.objectCollectionKey
+                    name: worklistOptions.worklist.objectCollectionKey
                 }
             };
             parameters.Object_Identifier = {
                 value: {
-                    name: worklistOptions.objectCollectionTitle
+                    name: worklistOptions.worklist.objectCollectionTitle
                 }
             };
             parameters.Object_Number = {
                 value: {
-                    name: worklistOptions.objectCollectionNumber
+                    name: worklistOptions.worklist.objectCollectionNumber
                 }
             };
             parameters.Object_UnitOfMeasure = {
                 value: {
-                    name: worklistOptions.objectCollectionUnit
+                    name: worklistOptions.worklist.objectCollectionUnit
                 }
             };
         } else if (options.masterdetail) {
@@ -148,29 +148,29 @@ module.exports = function (grunt) {
                     objectCollectionUnit: '',
                     lineItemCollection: '',
                     lineItemCollectionKey: '',
-                    lineItemCollectionTitle : '',
+                    lineItemCollectionTitle: '',
                     lineItemCollectionNumber: '',
                     lineItemCollectionUnit: ''
                 }
             });
             template = 'masterdetail';
-            templateData = {
+            templateData.masterdetail = {
                 environment: environment,
                 parameters: parameters
             };
 
-            if (!masterdetailOptions.objectCollection) {
+            if (!masterdetailOptions.masterdetail.objectCollection) {
                 grunt.fail.warn('Object collection is mandatory');
             }
-            if (!masterdetailOptions.objectCollectionTitle) {
+            if (!masterdetailOptions.masterdetail.objectCollectionTitle) {
                 grunt.fail.warn('Object collection title is mandatory');
             }
-            if (!masterdetailOptions.objectCollectionKey) {
+            if (!masterdetailOptions.masterdetail.objectCollectionKey) {
                 grunt.fail.warn('Object collection key is mandatory');
             }
 
 
-            if (!masterdetailOptions.objectCollectionNumber) {
+            if (!masterdetailOptions.masterdetail.objectCollectionNumber) {
                 fileFilter = fileFilter.concat([
                     'webapp/model/grouper.js',
                     'webapp/test/unit/model/grouper.js',
@@ -181,53 +181,53 @@ module.exports = function (grunt) {
 
             parameters.ObjectCollection = {
                 value: {
-                    name: masterdetailOptions.objectCollection
+                    name: masterdetailOptions.masterdetail.objectCollection
                 }
             };
             parameters.ObjectCollection_Key = {
                 value: {
-                    name: masterdetailOptions.objectCollectionKey
+                    name: masterdetailOptions.masterdetail.objectCollectionKey
                 }
             };
             parameters.Object_Identifier = {
                 value: {
-                    name: masterdetailOptions.objectCollectionTitle
+                    name: masterdetailOptions.masterdetail.objectCollectionTitle
                 }
             };
             parameters.Object_Number = {
                 value: {
-                    name: masterdetailOptions.objectCollectionNumber
+                    name: masterdetailOptions.masterdetail.objectCollectionNumber
                 }
             };
             parameters.Object_UnitOfMeasure = {
                 value: {
-                    name: masterdetailOptions.objectCollectionUnit
+                    name: masterdetailOptions.masterdetail.objectCollectionUnit
                 }
             };
 
             parameters.LineItemCollection = {
                 value: {
-                    name: masterdetailOptions.lineItemCollection
+                    name: masterdetailOptions.masterdetail.lineItemCollection
                 }
             };
             parameters.LineItemCollection_Key = {
                 value: {
-                    name: masterdetailOptions.lineItemCollectionKey
+                    name: masterdetailOptions.masterdetail.lineItemCollectionKey
                 }
             };
             parameters.LineItem_Identifier = {
                 value: {
-                    name: masterdetailOptions.lineItemCollectionTitle
+                    name: masterdetailOptions.masterdetail.lineItemCollectionTitle
                 }
             };
             parameters.LineItem_Number = {
                 value: {
-                    name: masterdetailOptions.lineItemCollectionNumber
+                    name: masterdetailOptions.masterdetail.lineItemCollectionNumber
                 }
             };
             parameters.LineItem_UnitOfMeasure = {
                 value: {
-                    name: masterdetailOptions.lineItemCollectionUnit
+                    name: masterdetailOptions.masterdetail.lineItemCollectionUnit
                 }
             };
 

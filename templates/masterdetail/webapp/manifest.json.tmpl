@@ -1,6 +1,5 @@
 {
 	"_version": "1.4.0",
-
 	"sap.app": {
 {{#masterdetail.environment.internal}}
 		"id": "${project.artifactId}",
@@ -12,9 +11,10 @@
 		"resources" : "resources.json",
 {{/masterdetail.environment.internal}}
 		"i18n": "i18n/i18n.properties",
-		"title": "{{&doubleCurlyBrackets "appTitle"}}",
-		"description": "{{&doubleCurlyBrackets "appDescription"}}",
-
+		{{=<% %>=}}
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		<%={{ }}=%>
 		"applicationVersion": {
 {{#masterdetail.environment.internal}}
 			"version": "${project.version}"
@@ -31,12 +31,15 @@
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",
-					"localUri" : "localService/metadata.xml"
+					"localUri": "localService/metadata.xml"
 				}
 			}
+		},
+		"sourceTemplate": {
+			"id": "sap.ui.ui5-template-plugin.2masterdetail",
+			"version": "1.38.3"
 		}
 	},
-
 {{#masterdetail.environment.internal}}
 	"sap.fiori": {
 		"registrationIds": [
@@ -68,14 +71,12 @@
 			"sap_bluecrystal"
 		]
 	},
-
 	"sap.ui5": {
 		"rootView": {
 			"viewName": "{{&masterdetail.parameters.ApplicationNamespace.value}}.view.App",
 			"type": "XML",
 			"id": "app"
 		},
-
 		"dependencies": {
 {{#masterdetail.environment.internal}}
 			"minUI5Version": "${sap.ui5.dist.version}",
@@ -89,21 +90,19 @@
 				"sap.m": {
 					"minVersion": "1.38.0"
 				}{{#masterdetail.parameters.FLP.value.value}},
-				"sap.ushell" : {
+				"sap.ushell": {
 					"minVersion": "1.38.0"
 				},
-				"sap.collaboration" : {
+				"sap.collaboration": {
 					"minVersion": "1.38",
-					"lazy" : true
+					"lazy": true
 				}{{/masterdetail.parameters.FLP.value.value}}
 			}
 		},
-
 		"contentDensities": {
 			"compact": true,
 			"cozy": true
 		},
-
 		"models": {
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
@@ -111,12 +110,11 @@
 					"bundleName": "{{&masterdetail.parameters.ApplicationNamespace.value}}.i18n.i18n"
 				}
 			},
-			"" : {
+			"": {
 				"dataSource": "mainService",
 				"preload": true
 			}
 		},
-
 		"routing": {
 			"config": {
 				"routerClass": "sap.m.routing.Router",
@@ -125,24 +123,31 @@
 				"controlId": "idAppControl",
 				"controlAggregation": "detailPages",
 				"bypassed": {
-					"target": ["master", "notFound"]
+					"target": [
+						"master",
+						"notFound"
+					]
 				},
 				"async": true
 			},
-
 			"routes": [
 				{
 					"pattern": "",
 					"name": "master",
-					"target": ["object", "master"]
+					"target": [
+						"object",
+						"master"
+					]
 				},
 				{
 					"pattern": "{{&masterdetail.parameters.ObjectCollection.value.name}}/{objectId}",
 					"name": "object",
-					"target": ["master", "object"]
+					"target": [
+						"master",
+						"object"
+					]
 				}
 			],
-
 			"targets": {
 				"master": {
 					"viewName": "Master",

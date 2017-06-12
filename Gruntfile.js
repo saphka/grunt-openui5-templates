@@ -84,19 +84,201 @@ module.exports = function (grunt) {
                     }
                 }
             },
-            md_flp_no_unit : {
+            md_flp_unit_line_line_unit: {
                 options: {
-                    dest: 'tmp/md_flp_no_unit',
-                    namespace: 'flp.no.unit',
-                    title: 'flp_no_unit',
+                    dest: 'tmp/md_flp_unit_line_line_unit',
+                    namespace: 'md.flp.unit.line.line.unit',
+                    title: 'md_flp_unit_line_line_unit',
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description',
+                        objectCollectionNumber: 'Rating',
+                        objectCollectionUnit: 'Price',
+                        lineItemCollection: 'Supplier',
+                        lineItemCollectionKey: 'ID',
+                        lineItemCollectionTitle: 'Name',
+                        lineItemCollectionNumber: 'Concurrency',
+                        lineItemCollectionUnit: 'Address/City'
+                    }
+                }
+            },
+            md_flp_no_unit_line_line_unit: {
+                options: {
+                    dest: 'tmp/md_flp_no_unit_line_line_unit',
+                    namespace: 'md.flp.no.unit.line.line.unit',
+                    title: 'md_flp_no_unit_line_line_unit',
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description',
+                        lineItemCollection: 'Supplier',
+                        lineItemCollectionKey: 'ID',
+                        lineItemCollectionTitle: 'Name',
+                        lineItemCollectionNumber: 'Concurrency',
+                        lineItemCollectionUnit: 'Address/City'
+                    }
+                }
+            },
+            md_flp_no_unit_line_no_line_unit: {
+                options: {
+                    dest: 'tmp/md_flp_no_unit_line_no_line_unit',
+                    namespace: 'md.flp.no.unit.line.no.line.unit',
+                    title: 'md_flp_no_unit_line_no_line_unit',
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description',
+                        lineItemCollection: 'Supplier',
+                        lineItemCollectionKey: 'ID',
+                        lineItemCollectionTitle: 'Name'
+                    }
+                }
+            },
+            md_flp_no_unit_no_line: {
+                options: {
+                    dest: 'tmp/md_flp_no_unit_no_line',
+                    namespace: 'md.flp.no.unit.no.line',
+                    title: 'md_flp_no_unit_no_line',
                     masterdetail: {
                         objectCollection: 'Products',
                         objectCollectionKey: 'ID',
                         objectCollectionTitle: 'Description'
                     }
                 }
-
+            },
+            md_flp_unit_line_no_line_unit: {
+                options: {
+                    dest: 'tmp/md_flp_unit_line_no_line_unit',
+                    namespace: 'md.flp.unit.line.no.line.unit',
+                    title: 'md_flp_unit_line_no_line_unit',
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description',
+                        objectCollectionNumber: 'Rating',
+                        objectCollectionUnit: 'Price',
+                        lineItemCollection: 'Supplier',
+                        lineItemCollectionKey: 'ID',
+                        lineItemCollectionTitle: 'Name'
+                    }
+                }
+            },
+            md_flp_unit_no_line: {
+                options: {
+                    dest: 'tmp/md_flp_unit_no_line',
+                    namespace: 'md.flp.unit.no.line',
+                    title: 'md_flp_unit_no_line',
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description',
+                        objectCollectionNumber: 'Rating',
+                        objectCollectionUnit: 'Price'
+                    }
+                }
+            },
+            md_standalone_no_unit_line_line_unit: {
+                options: {
+                    dest: 'tmp/md_standalone_no_unit_line_line_unit',
+                    namespace: 'md.standalone.no.unit.line.line.unit',
+                    title: 'md_standalone_no_unit_line_line_unit',
+                    standalone: true,
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description',
+                        lineItemCollection: 'Supplier',
+                        lineItemCollectionKey: 'ID',
+                        lineItemCollectionTitle: 'Name',
+                        lineItemCollectionNumber: 'Concurrency',
+                        lineItemCollectionUnit: 'Address/City'
+                    }
+                }
+            },
+            md_standalone_no_unit_line_no_line_unit: {
+                options: {
+                    dest: 'tmp/md_standalone_no_unit_line_no_line_unit',
+                    namespace: 'md.standalone.no.unit.line.no.line.unit',
+                    title: 'md_standalone_no_unit_line_no_line_unit',
+                    standalone: true,
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description',
+                        lineItemCollection: 'Supplier',
+                        lineItemCollectionKey: 'ID',
+                        lineItemCollectionTitle: 'Name'
+                    }
+                }
+            },
+            md_standalone_no_unit_no_line: {
+                options: {
+                    dest: 'tmp/md_standalone_no_unit_no_line',
+                    namespace: 'md.standalone.no.unit.no.line',
+                    title: 'md_standalone_no_unit_no_line',
+                    standalone: true,
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description'
+                    }
+                }
+            },
+            md_standalone_unit_line_line_unit: {
+                options: {
+                    dest: 'tmp/md_standalone_unit_line_line_unit',
+                    namespace: 'md.standalone.unit.line.line.unit',
+                    title: 'md_standalone_unit_line_line_unit',
+                    standalone: true,
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description',
+                        objectCollectionNumber: 'Rating',
+                        objectCollectionUnit: 'Price',
+                        lineItemCollection: 'Supplier',
+                        lineItemCollectionKey: 'ID',
+                        lineItemCollectionTitle: 'Name',
+                        lineItemCollectionNumber: 'Concurrency',
+                        lineItemCollectionUnit: 'Address/City'
+                    }
+                }
+            },
+            md_standalone_unit_line_no_line_unit: {
+                options: {
+                    dest: 'tmp/md_standalone_unit_line_no_line_unit',
+                    namespace: 'md.standalone.unit.line.no.line.unit',
+                    title: 'md_standalone_unit_line_no_line_unit',
+                    standalone: true,
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description',
+                        objectCollectionNumber: 'Rating',
+                        objectCollectionUnit: 'Price',
+                        lineItemCollection: 'Supplier',
+                        lineItemCollectionKey: 'ID',
+                        lineItemCollectionTitle: 'Name'
+                    }
+                }
+            },
+            md_standalone_unit_no_line: {
+                options: {
+                    dest: 'tmp/md_standalone_unit_no_line',
+                    namespace: 'md.standalone.unit.no.line',
+                    title: 'md_standalone_unit_no_line',
+                    standalone: true,
+                    masterdetail: {
+                        objectCollection: 'Products',
+                        objectCollectionKey: 'ID',
+                        objectCollectionTitle: 'Description',
+                        objectCollectionNumber: 'Rating',
+                        objectCollectionUnit: 'Price'
+                    }
+                }
             }
+
         },
 
         // Unit tests.
