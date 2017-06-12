@@ -27,57 +27,215 @@ grunt.initConfig({
   openui5_templates: {
     options: {
       // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
+    }
   },
 });
 ```
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
-
-A string value that is used to do something with whatever.
-
-#### options.punctuation
+#### options.dest
 Type: `String`
 Default value: `'.'`
 
-A string value that is used to do something else with whatever else.
+Destination path where the application will be created
+
+#### options.namespace
+Type: `String`
+Default value: `''`
+
+Application namespace. Parameter is mandatory
+
+#### options.title
+Type: `String`
+Default value: `''`
+
+Application title. Parameter is mandatory
+
+#### options.description
+Type: `String`
+Default value: `''`
+
+Application description
+
+#### options.standalone
+Type: `Boolean`
+Default value: `false`
+
+Create template as stand-alone or Fiori launchpad application
+
+#### options.serviceURL
+Type: `String`
+Default value: `'/here/goes/your/serviceurl/'`
+
+Main service URL. Does not load any metadata or anything. Just to fill it in manifest
+
+#### options.worklist
+Type: `Object`
+Default value: `null`
+
+Parameters, specific for Worklist template generation. If both Worklist and Master-Detail parameters are provided, Worklist application will be generated.
+
+#### options.worklist.objectCollection
+Type: `String`
+Default value: `''`
+
+Object collection name for Worklist view. Mandatory
+
+#### options.worklist.objectCollectionKey
+Type: `String`
+Default value: `''`
+
+Object collection's key parameter. Mandatory
+
+#### options.worklist.objectCollectionTitle
+Type: `String`
+Default value: `''`
+
+Object collection's title property. Mandatory
+
+#### options.worklist.objectCollectionNumber
+Type: `String`
+Default value: `''`
+
+Object collection's number property
+
+#### options.worklist.objectCollectionUnit
+Type: `String`
+Default value: `''`
+
+Object collection's unit property
+
+#### options.worklist.edit
+Type: `Boolean`
+Default value: `false`
+
+Generate edit view with simple form and edit navigation. Experimantal, wasn't tested
+
+#### options.worklist.editSmart
+Type: `Boolean`
+Default value: `false`
+
+Generate edit view with smart form and edit navigation. Experimentalm wasn't tested
+If both edit and editSmart are used, simple form will be generated
+
+#### options.masterdetail
+Type: `Object`
+Default value: `null`
+
+Parameters, specific for Master-detail template generation
+
+#### options.masterdetail.objectCollection
+Type: `String`
+Default value: `''`
+
+Object collection name for Master view. Mandatory
+
+#### options.masterdetail.objectCollectionKey
+Type: `String`
+Default value: `''`
+
+Object collection's key parameter. Mandatory
+
+#### options.masterdetail.objectCollectionTitle
+Type: `String`
+Default value: `''`
+
+Object collection's title property. Mandatory
+
+#### options.masterdetail.objectCollectionNumber
+Type: `String`
+Default value: `''`
+
+Object collection's number property
+
+#### options.masterdetail.objectCollectionUnit
+Type: `String`
+Default value: `''`
+
+Object collection's unit property
+
+#### options.masterdetail.lineItemCollection
+Type: `String`
+Default value: `''`
+
+Collection name for Details view
+
+#### options.masterdetail.lineItemCollectionKey
+Type: `String`
+Default value: `''`
+
+Line collection's key parameter
+
+#### options.masterdetail.lineItemCollectionTitle
+Type: `String`
+Default value: `''`
+
+Line collection's title parameter
+
+#### options.masterdetail.lineItemCollectionNumber
+Type: `String`
+Default value: `''`
+
+Line collection's number parameter
+
+#### options.masterdetail.lineItemCollectionUnit
+Type: `String`
+Default value: `''`
+
+Line collection's unit parameter
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+#### Worklist template
+In this example, the worklist application will be generated
 
 ```js
 grunt.initConfig({
   openui5_templates: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+    worklist: {
+      options: {
+        dest: '.',
+        namespace: 'my.worklist',
+        title: 'My worklist',
+        worklist: {
+          objectCollection: 'Products',
+          objectCollectionKey: 'ID',
+          objectCollectionTitle: 'Description',
+          objectCollectionNumber: 'Rating',
+          objectCollectionUnit: 'Stars'
+        }
+      }
+    }
   },
 });
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+#### Master-detail template
+In this example, the Master-detail application will be generated
 
 ```js
 grunt.initConfig({
   openui5_templates: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+    master_detail: {
+      options: {
+        dest: '.',
+        namespace: 'my.master.detail',
+        title: 'My Master-detail',
+        masterdetail: {
+          objectCollection: 'Products',
+          objectCollectionKey: 'ID',
+          objectCollectionTitle: 'Description',
+          objectCollectionNumber: 'Rating',
+          objectCollectionUnit: 'Stars',
+          lineItemCollection: 'Supplier',
+          lineItemCollectionKey: 'ID',
+          lineItemCollectionTitle: 'Name',
+          lineItemCollectionNumber: 'Concurrency',
+          lineItemCollectionUnit: 'Percent'
+        }
+      }
+    }
   },
 });
 ```
@@ -86,4 +244,4 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+0.1.0 - Templates for SAPUI5 1.38 were added
