@@ -256,8 +256,6 @@ module.exports = function (grunt) {
         grunt.verbose.writeln('Template files are located at "' + templatePath + '"');
         grunt.verbose.writeln('Template will be copied into "' + options.dest + '"');
 
-        // grunt.template.addDelimiters('double-braces', '{{', '}}');
-
         var count = grunt.file.expandMapping([path.join(templatePath, '**/*.tmpl')], options.dest, {
             rename: function (dest, matchedSrcPath) {
                 return path.join(dest, path.relative(templatePath, matchedSrcPath).replace(/\.tmpl$/, ''));
@@ -266,9 +264,6 @@ module.exports = function (grunt) {
             grunt.verbose.writeln('Processing file ' + file.src);
 
             var content = grunt.file.read(file.src);
-
-            // content = content.replace(/{{/g, '{{&').replace(/{{&#if /g, '{{#').replace(/{{&\/if/g, '{{/').replace(/{{&#unless /g, '{{^').replace(/{{&\/unless/g, '{{/').replace(/formatNamespace 2masterdetail\.parameters\.ApplicationNamespace\.value/g,
-            //     '2masterdetail.parameters.ApplicationNamespace.depValue').replace(/2masterdetail/g, 'masterdetail').replace(/{{&else}}/g, '{{/}}{{^}}');
 
             content = mustache.render(content, templateData);
 
