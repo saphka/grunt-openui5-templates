@@ -33,7 +33,9 @@ module.exports = function (grunt) {
             grunt.fail.warn('Namespace incorrect');
         }
 
-        // options.dest = path.join(options.dest, 'webapp');
+        if (!options.title) {
+            grunt.fail.warn('Application title is mandatory');
+        }
 
         var templatePath = path.join(__dirname, '..', 'templates'),
             template = '',
@@ -83,6 +85,16 @@ module.exports = function (grunt) {
                 environment: environment,
                 parameters: parameters
             };
+
+            if (!worklistOptions.objectCollection) {
+                grunt.fail.warn('Object collection is mandatory');
+            }
+            if (!worklistOptions.objectCollectionTitle) {
+                grunt.fail.warn('Object collection title is mandatory');
+            }
+            if (!worklistOptions.objectCollectionKey) {
+                grunt.fail.warn('Object collection key is mandatory');
+            }
 
             if (!worklistOptions.edit) {
                 fileFilter = fileFilter.concat([
@@ -146,6 +158,17 @@ module.exports = function (grunt) {
                 environment: environment,
                 parameters: parameters
             };
+
+            if (!masterdetailOptions.objectCollection) {
+                grunt.fail.warn('Object collection is mandatory');
+            }
+            if (!masterdetailOptions.objectCollectionTitle) {
+                grunt.fail.warn('Object collection title is mandatory');
+            }
+            if (!masterdetailOptions.objectCollectionKey) {
+                grunt.fail.warn('Object collection key is mandatory');
+            }
+
 
             if (!masterdetailOptions.objectCollectionNumber) {
                 fileFilter = fileFilter.concat([
